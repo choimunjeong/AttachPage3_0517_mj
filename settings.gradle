@@ -1,0 +1,2 @@
+include ':app', ':androidtagview'
+rootProject.name='AttachPage3_200428_mj'
