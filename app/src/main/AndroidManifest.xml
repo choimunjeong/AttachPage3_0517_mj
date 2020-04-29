@@ -2,9 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.attachpage3_200428_mj">
 
+    <!--안드로이드 앱에서 인터넷에 접속할 수 있도록 허용-->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--네트워크가 연결된 것을 확인 할 수 있게 함(모니터링)-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -19,6 +26,7 @@
         </activity>
         <activity android:name="Page3_1.Page3_1_Main"/>
         <activity android:name="Page3_1_1.Page3_1_1_Main"/>
+        <activity android:name="Page3_1_1_1.Page3_1_1_1_Main"/>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +21,12 @@ import com.example.attachpage3_200428_mj.send_data;
 import com.google.android.material.tabs.TabLayout;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import Page3_1_1.Page3_1_1_Main;
+import Page3_1_1_1.Page3_1_1_1_Main;
 
 public class Page3_1_Main extends AppCompatActivity {
     ViewPager viewPager;
@@ -36,12 +40,18 @@ public class Page3_1_Main extends AppCompatActivity {
     String[] text = new String[10];
     int number = 0;
 
+
     //알고리즘
     SubwayController controller;
     SubwayBuilder builder;
     Subway subway = null;
     String result;
     Context context;
+
+    boolean checkStart = false;     //'출발'을 한 번만 넣기 위함
+    ArrayList<String> next_data = new ArrayList<>();
+    ArrayList<String> result_name = new ArrayList<String>();
+    ArrayList<String> result_number = new ArrayList<String>();
 
 
     @SuppressLint("ResourceType")
@@ -86,6 +96,19 @@ public class Page3_1_Main extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Page3_1_Main.this, Page3_1_1_Main.class);
+                intent.putExtra("result", result);           //추가된 역
+                startActivity(intent);
+            }
+        });
+
+        //다음단계 버튼 누르면
+        Button nextStep_btn = (Button) findViewById(R.id.page3_1_nextstep_btn);
+        nextStep_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                forPage3_1_1_1(result);
+                Intent intent = new Intent(Page3_1_Main.this, Page3_1_1_1_Main.class);
+                intent.putExtra("next_data", next_data);
                 startActivity(intent);
             }
         });
@@ -149,6 +172,46 @@ public class Page3_1_Main extends AppCompatActivity {
 
     }
 
+    //알고리즘 값을 정리
+    public void forPage3_1_1_1(String result) {
+
+        //줄바꿈 단위로 나눈 것을 개수/출발/시간/도착 으로 쪼갬
+        String[] split_result = result.split("\n");
+        for (int i = 0; i < split_result.length; i++) {
+            String[] split_result2 = split_result[i].split(",");
+
+            //그냥 지나감
+            if (split_result[i].contains("개수"))
+                continue;
+
+            else if (split_result[i].contains("출발")) {
+                result_name.add(split_result2[1]);
+                if (!checkStart) {
+                    result_number.add("출발");
+                    checkStart = true;
+                } else
+                    result_number.add("경유");
+            }
+
+            else if (split_result[i].contains("시간")) {
+                continue;
+            }
+
+            else if (split_result[i].contains("도착") && i == split_result.length - 1) {
+                result_name.add(split_result2[1]);
+                result_number.add("도착");
+            }
+
+            else if (split_result[i].contains("환승")) {
+                result_name.add(split_result2[1]);
+                result_number.add("환승");
+            }
+        }
+
+        for (int i = 0; i < result_name.size(); i++) {
+            next_data.add(result_number.get(i)+ "," + result_name.get(i));
+        }
+    }
 
 
     //경유지가 1개인 경우
@@ -507,7 +570,7 @@ public class Page3_1_Main extends AppCompatActivity {
     }
 
     //이 클래스는 어댑터와 서로 주고받으며 쓰는 클래스임
-    public static class item_data {
+    public static class item_data  {
         String number;
         String name;
         String time;
@@ -524,10 +587,13 @@ public class Page3_1_Main extends AppCompatActivity {
             return this.time;
         }
 
-        item_data (String number, String name, String time) {
+        public item_data(String number, String name, String time) {
             this.number  = number;
             this.name  = name;
             this.time = time;
         }
     }
+
+
+
 }

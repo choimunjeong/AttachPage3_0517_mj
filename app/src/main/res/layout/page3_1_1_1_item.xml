@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginRight="8dp">
+
+        //'T' 모양 아이콘
+        <TextView
+            android:layout_margin="1dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circle3"
+            android:textColor="#ffffff"
+            android:text="T"
+            android:gravity="center_horizontal|center_vertical"
+            android:textSize="15dp"
+            android:fontFamily="@font/notosans"/>
+    </RelativeLayout>
+
+    //기차검색창 부분
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:layout_marginRight="8dp">
+
+        <TextView
+            android:id="@+id/searchTime_Page3_1_1_shadow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:background="#f888"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:textSize="10dp"/>
+
+        <TextView
+            android:id="@+id/searchTime_Page3_1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기차 시간 검색"
+            android:clickable="true"
+            android:gravity="center"
+            android:textSize="25dp"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/box_stroke"/>
+
+    </RelativeLayout>
+
+
+    //역1-역2 텍스트
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/course_Page3_1_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="용산-군산"
+            android:gravity="center"
+            android:textSize="25dp"/>
+</LinearLayout>
+
+</LinearLayout>

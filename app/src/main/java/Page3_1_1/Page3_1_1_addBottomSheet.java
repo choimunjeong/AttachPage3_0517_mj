@@ -203,7 +203,7 @@ public class Page3_1_1_addBottomSheet extends BottomSheetDialogFragment {
         AssetManager am = getResources().getAssets() ;
         InputStream is = null;
         try{
-            is = am.open("station4.txt");
+            is = am.open("station3.txt");
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
             String str = null;
             while(((str = reader.readLine()) != null)){ readStr += str +"\n"; }

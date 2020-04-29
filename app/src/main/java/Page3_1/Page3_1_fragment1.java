@@ -65,7 +65,6 @@ public class Page3_1_fragment1 extends Fragment {
         //액티비티에서 값을 전달 받음
         Bundle extra = getArguments();
         String result = extra.getString("result");
-        Log.i("ㅗㅗㅗㅗㅗ", result);
 
         //알고리즘 값을 정제해서 arraylist에 add 해줌
         ongetdata(result);

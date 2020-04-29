@@ -93,6 +93,7 @@
 
 
             <Button
+                android:id="@+id/page3.1_nextstep_btn"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"

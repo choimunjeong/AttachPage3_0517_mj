@@ -1,6 +1,7 @@
 package Page3_1_1;
 
 
+import android.database.DataSetObservable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     private ArrayList<Page3_1_1_dargData> mDataset;
     private ItemTouchHelper touchHelper;
     boolean touchDrag = false;
+
 
 
     //content 뷰 홀더

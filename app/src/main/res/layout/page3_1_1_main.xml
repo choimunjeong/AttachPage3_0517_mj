@@ -82,40 +82,20 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/add"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-
-        //경로재탐색 버튼
-        <Button
-            android:id="@+id/page3.1_1_re_btn"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:text="경로 재탐색"
-            android:textSize="16dp"
-            android:textColor="#ffffff"
-            android:background="@drawable/box_round2"
-            android:elevation="8dp" >
-        </Button>
-
         //수정완료 버튼
         <Button
-            android:layout_width="0dp"
+            android:id="@+id/page3_1_1_reviseDone_btn"
+            android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_weight="1"
+            android:layout_below="@+id/add"
+            android:layout_marginTop="16dp"
             android:text="수정완료"
             android:textSize="16dp"
             android:textColor="#ffffff"
-            android:layout_marginLeft="19dp"
             android:background="@drawable/box_round3"
             android:elevation="8dp" />
-        </LinearLayout>
-    </RelativeLayout>
 
+    </RelativeLayout>
 
 
 </ScrollView>
