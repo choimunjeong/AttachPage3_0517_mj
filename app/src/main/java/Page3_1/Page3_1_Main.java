@@ -35,6 +35,7 @@ public class Page3_1_Main extends AppCompatActivity {
     Page3_1_fragment1 fragment1;
     ArrayList<send_data> list = new ArrayList<send_data>();
     String date, dayPass;
+    String isRevise_done = "false";
 
     //받은 값을 넣을 배열
     String[] text = new String[10];
@@ -45,7 +46,7 @@ public class Page3_1_Main extends AppCompatActivity {
     SubwayController controller;
     SubwayBuilder builder;
     Subway subway = null;
-    String result;
+    String result = "";
     Context context;
 
     boolean checkStart = false;     //'출발'을 한 번만 넣기 위함
@@ -66,12 +67,17 @@ public class Page3_1_Main extends AppCompatActivity {
         tabLayout=(TabLayout)findViewById(R.id.tablayout);
 
 
-        //앞에서 값을 받아온다.
+        //앞에서 값을 받아온다.(1)
         Intent get = getIntent();
         list = (ArrayList<send_data>)get.getSerializableExtra("list");
         date = get.getExtras().getString("date");
-        dayPass = get.getExtras().getString("dayPass");
         number = list.size();
+        dayPass = get.getExtras().getString("dayPass");
+
+
+        //수정완료 페이지에서 값을 받아온다. (2)
+        isRevise_done = get.getExtras().getString("reRvise_done");
+
 
         text[0] = (String) list.get(0).getCode();                              //출발역
         text[list.size() - 1] = (String) list.get(list.size() - 1).getCode();  //도착역
@@ -80,9 +86,21 @@ public class Page3_1_Main extends AppCompatActivity {
             text[i] = (String) list.get(i).getCode();
         }
 
-        //알고리즘 실행
-        algorithm();
-        Log.i("결과값", result);
+        Log.i("ㅗㅗㅗㅗ텍스트ㅗㅗㅗㅗㅗㅗㅗ", text[0]+text[1]+text[2]);
+
+        //알고리즘 실행(1) : 최단거리알고리즘
+        if(isRevise_done == null){
+            algorithm();
+        }
+
+
+        //알고리즘 실행(2) : 지정한 순서대로
+        else {
+            fix_order_algorithm();
+        }
+
+        Log.i("ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ", result);
+
 
         vpAdapter = new Page3_VPAdapter(getSupportFragmentManager());
         vpAdapter.getText(result);
@@ -100,6 +118,7 @@ public class Page3_1_Main extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
 
         //다음단계 버튼 누르면
         Button nextStep_btn = (Button) findViewById(R.id.page3_1_nextstep_btn);
@@ -169,6 +188,77 @@ public class Page3_1_Main extends AppCompatActivity {
             default:
                 break;
         }
+
+    }
+
+    //지정한 순서대로 알고리즘 실행
+    public void fix_order_algorithm(){
+        // 빌더를 생성
+        try {
+            builder.readFile(getApplicationContext(), "station3.txt", "link3.txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (com.example.attachpage3_200428_mj.Algorithm.SubwayException e) {
+            e.printStackTrace();
+        }
+
+        // 지하철 클래스
+        subway = builder.build();
+
+        // 검색을 위한 컨트롤러
+        controller = new SubwayController(subway);
+
+        for(int i =0; i < list.size()-1; i++){
+            String search = controller.search(text[i], text[i+1]);
+
+            if(i == list.size()-2)
+                result = result + search;
+            else
+                result = result + search + "\r\n";
+        }
+//
+//        switch (text.length) {
+//            case 3:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2]);
+//                break;
+//            case 4:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]);
+//                break;
+//            case 5:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4]);
+//                break;
+//            case 6:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
+//                        + "\r\n" + controller.search(text[4], text[5]);
+//                break;
+//            case 7:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
+//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6]);
+//                break;
+//            case 8:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
+//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6])
+//                        + "\r\n" + controller.search(text[6], text[7]);
+//                break;
+//            case 9:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
+//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6])
+//                        + "\r\n" + controller.search(text[6], text[7]) + "\r\n" + controller.search(text[7], text[8]);
+//                break;
+//            case 10:
+//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
+//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
+//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6])
+//                        + "\r\n" + controller.search(text[6], text[7]) + "\r\n" + controller.search(text[7], text[8])
+//                        + "\r\n" + controller.search(text[8], text[9]);
+//                break;
+//        }
 
     }
 

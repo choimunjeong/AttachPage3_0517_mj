@@ -5,98 +5,108 @@
     android:layout_height="match_parent"
     android:background="@drawable/ic_background">
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="33dp">
-
-        //왼쪽 위 목록 버튼
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_background"/>
-
-        //가운데 로고 이미지
-        <TextView
-            android:layout_width="105dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:text="logo"
-            android:background="#AAAAAA"/>
-
-        //오른쪽 위 마이페이지 버튼
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="8dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_background"/>
+        android:layout_height="match_parent">
 
 
-        //경로수정하기 타이틀 텍스트
-        <TextView
-            android:layout_width="162dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="80dp"
-            android:text="경로 수정하기"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:textColor="#000000"
-            android:letterSpacing="-0.03" />
-
-        //도시 순서를... 섭타이틀 텍스트
-        <TextView
-            android:id="@+id/page3.1_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:layout_marginTop="129dp"
-            android:text="도시 순서를 수정하거나 경로 재탐색이 가능합니다."
-            android:textSize="16dp"
-            android:textColor="#000000"
-            android:letterSpacing="-0.03" />
-
-
-        //리사이클러뷰
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/page3_1_1_RecyclerView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="183dp"
-            android:paddingBottom="63dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/box_round"
-            android:scrollbars="vertical"/>
-
-        <include layout="@layout/page3_1_1_addbtn"
-            android:id="@+id/add"
-            android:layout_alignBottom="@+id/page3_1_1_RecyclerView"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
-
-        //수정완료 버튼
-        <Button
-            android:id="@+id/page3_1_1_reviseDone_btn"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_below="@+id/add"
-            android:layout_marginTop="16dp"
-            android:text="수정완료"
-            android:textSize="16dp"
-            android:textColor="#ffffff"
-            android:background="@drawable/box_round3"
-            android:elevation="8dp" />
-
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="33dp">
 
 
-</ScrollView>
+            //왼쪽 위 목록 버튼
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_background"/>
+
+
+            //가운데 로고 이미지
+            <TextView
+                android:layout_width="105dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:text="logo"
+                android:background="#AAAAAA"/>
+
+
+            //오른쪽 위 마이페이지 버튼
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/btn_background"/>
+
+
+            //경로수정하기 타이틀 텍스트
+            <TextView
+                android:layout_width="162dp"
+                android:layout_height="33dp"
+                android:layout_marginTop="80dp"
+                android:text="경로 수정하기"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:letterSpacing="-0.03" />
+
+
+            //도시 순서를... 섭타이틀 텍스트
+            <TextView
+                android:id="@+id/page3.1_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginTop="129dp"
+                android:text="도시 순서를 수정하거나 경로 재탐색이 가능합니다."
+                android:textSize="16dp"
+                android:textColor="#000000"
+                android:letterSpacing="-0.03" />
+
+
+            //리사이클러뷰
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/page3_1_1_RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="183dp"
+                android:paddingBottom="63dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/box_round"
+                android:scrollbars="vertical"/>
+
+
+            //도시추가 레이아웃
+            <include layout="@layout/page3_1_1_addbtn"
+                android:id="@+id/add"
+                android:layout_alignBottom="@+id/page3_1_1_RecyclerView"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" />
+
+
+            //수정완료 버튼
+            <Button
+                android:id="@+id/page3_1_1_reviseDone_btn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_below="@+id/add"
+                android:layout_marginTop="16dp"
+                android:text="수정완료"
+                android:textSize="16dp"
+                android:textColor="#ffffff"
+                android:background="@drawable/box_round3"
+                android:elevation="8dp" />
+
+
+        </RelativeLayout>
+
+    </ScrollView>
+
 </RelativeLayout>

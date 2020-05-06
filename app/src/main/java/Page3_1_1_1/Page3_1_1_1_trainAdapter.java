@@ -85,7 +85,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                     Page3_1_1_1_bottomSheet dialog = new Page3_1_1_1_bottomSheet(context);
                     dialog.setContentView(view);
                     dialog.show();
-                    dialog.send(data);
+
 
                 }
             });

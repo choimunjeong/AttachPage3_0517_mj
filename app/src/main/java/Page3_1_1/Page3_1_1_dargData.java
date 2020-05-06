@@ -1,6 +1,8 @@
 package Page3_1_1;
 
-public class Page3_1_1_dargData {
+import java.io.Serializable;
+
+public class Page3_1_1_dargData  implements Serializable {
     private String name;
     private int number;
 
