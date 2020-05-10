@@ -173,12 +173,30 @@ public class Page3_Main extends AppCompatActivity  {
         autoCompleteTextView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, list));   //아답터에 연결
 
 
+        //자동입력 누르면 스크롤이 맨 아래로 내려감
+        autoCompleteTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Log.i("눌렀는디", "왜 아무런,");
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                    }
+                });
+                return false;
+            }
+        });
+
+
+
         //자동입력에서 항목을 터치했을 때, 키보드가 바로 내려감 + 웹뷰에서 해당역에 출경도 버튼 띄워짐
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (autoCompleteTextView.getText().toString() != null) {
                     page3_svg.loadUrl("javascript:setMessage('" + autoCompleteTextView.getText().toString() + "')");
+
                 }
 
                 //키보드 내림
@@ -234,7 +252,6 @@ public class Page3_Main extends AppCompatActivity  {
 
         //웹뷰를 로드함
         page3_svg.loadUrl("file:///android_asset/index.html");
-
 
 
         //태그뷰 관련

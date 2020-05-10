@@ -18,7 +18,7 @@ public class Page3_VPAdapter extends FragmentPagerAdapter {
             case 0:
                 return Page3_1_fragment1.newInstance(text);
             case 1:
-                return Page3_1_fragment2.newInstance();
+                return Page3_1_fragment2.newInstance(text);
         }
         return null;
     }

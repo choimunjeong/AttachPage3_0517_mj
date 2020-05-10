@@ -138,7 +138,6 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
 
                 Intent intent = new Intent(Page3_1_1_Main.this, Page3_1_Main.class);
                 intent.putExtra("list", (Serializable) send_list);
-                intent.putExtra("reRvise_done", "밥 먹자");
                 startActivity(intent);
             }
         });

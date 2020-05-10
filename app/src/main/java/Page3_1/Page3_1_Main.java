@@ -86,8 +86,6 @@ public class Page3_1_Main extends AppCompatActivity {
             text[i] = (String) list.get(i).getCode();
         }
 
-        Log.i("ㅗㅗㅗㅗ텍스트ㅗㅗㅗㅗㅗㅗㅗ", text[0]+text[1]+text[2]);
-
         //알고리즘 실행(1) : 최단거리알고리즘
         if(isRevise_done == null){
             algorithm();
@@ -216,50 +214,6 @@ public class Page3_1_Main extends AppCompatActivity {
             else
                 result = result + search + "\r\n";
         }
-//
-//        switch (text.length) {
-//            case 3:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2]);
-//                break;
-//            case 4:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]);
-//                break;
-//            case 5:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4]);
-//                break;
-//            case 6:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
-//                        + "\r\n" + controller.search(text[4], text[5]);
-//                break;
-//            case 7:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
-//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6]);
-//                break;
-//            case 8:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
-//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6])
-//                        + "\r\n" + controller.search(text[6], text[7]);
-//                break;
-//            case 9:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
-//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6])
-//                        + "\r\n" + controller.search(text[6], text[7]) + "\r\n" + controller.search(text[7], text[8]);
-//                break;
-//            case 10:
-//                result = controller.search(text[0], text[1]) + "\r\n" + controller.search(text[1], text[2])
-//                        + "\r\n" + controller.search(text[2], text[3]) + "\r\n" + controller.search(text[3], text[4])
-//                        + "\r\n" + controller.search(text[4], text[5]) + "\r\n" + controller.search(text[5], text[6])
-//                        + "\r\n" + controller.search(text[6], text[7]) + "\r\n" + controller.search(text[7], text[8])
-//                        + "\r\n" + controller.search(text[8], text[9]);
-//                break;
-//        }
-
     }
 
     //알고리즘 값을 정리

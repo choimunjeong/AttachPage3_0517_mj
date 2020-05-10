@@ -1,7 +1,9 @@
 package Page3_1_1;
 
 
+import android.content.Context;
 import android.database.DataSetObservable;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -25,6 +28,7 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     private ArrayList<Page3_1_1_dargData> mDataset;
     private ItemTouchHelper touchHelper;
     boolean touchDrag = false;
+    Context context;
 
 
 
@@ -55,6 +59,7 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page3_1_1_item, parent,false);
             return new MyViewHolder(view);
     }
@@ -62,24 +67,27 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.name.setText(mDataset.get(position).getName());
+        holder.name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, Integer.toString(position), Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        if(mDataset.get(position).getNumber() == 0){
-            holder.number.setText("01");
+        //순서부분
+        if(position < 9) {
+            holder.number.setText("0"+ Integer.toString(position+1));
         }
-        else if (mDataset.get(position).getNumber() == mDataset.size()-1){
-            if(mDataset.get(position).getNumber() < 9) {
-                holder.number.setText("0" + Integer.toString(mDataset.size()) );
-            } else {
-                holder.number.setText( Integer.toString(mDataset.size()) );
-            }
-        }
-        else {
-            if(mDataset.get(position).getNumber() < 9) {
-                holder.number.setText("0" + Integer.toString(mDataset.get(position).getNumber()+1) );
-            } else {
-                holder.number.setText( Integer.toString(mDataset.get(position).getNumber()+1) );
-            }
-        }
+        else
+            holder.number.setText(Integer.toString(position+1));
+
+        //색깔부분
+        if(position == 0) {
+            holder.circle.setBackgroundResource(R.drawable.circle);
+        } else if(position > 0 && position < mDataset.size()-1){
+            holder.circle.setBackgroundResource(R.drawable.circle3);
+        } else
+            holder.circle.setBackgroundResource(R.drawable.circle4);
 
 
         //줄3개 누르면 드래그 됨.
@@ -88,6 +96,10 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     touchHelper.startDrag(holder);
+                    Log.i("드래그", "누름");
+                }
+                else if(event.getActionMasked() == MotionEvent.ACTION_UP) {
+                    Log.i("드래그", "똄");
                 }
                 return false;
             }
@@ -98,10 +110,13 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("언제 잘 수 있을까", Integer.toString(position));
-                mDataset.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, mDataset.size());
+                if(mDataset.size() <4){
+                    Toast.makeText(context, "더이상 삭제할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    mDataset.remove(position);
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, mDataset.size());
+                }
             }
         });
     }
@@ -113,10 +128,12 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     }
 
 
+    //드래그 했을 때
     @Override
     public void onViewMoved(int oldPosition, int newPosition) {
         Collections.swap(mDataset, oldPosition, newPosition);
         notifyItemMoved(oldPosition, newPosition);
+
         notifyItemRangeChanged(0, mDataset.size());
     }
 

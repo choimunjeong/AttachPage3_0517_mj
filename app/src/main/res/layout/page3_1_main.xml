@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:background="@drawable/ic_background">
@@ -10,16 +10,17 @@
     <RelativeLayout
         android:id="@+id/layout_page3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="33dp">
 
-
+        //왼쪽 위 목록 버튼
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/btn_background"/>  //왼쪽 위 목록 버튼
+            android:background="@drawable/btn_background"/>
 
-
+        //가운데 로고 이미지
         <TextView
             android:layout_width="105dp"
             android:layout_height="40dp"
@@ -27,17 +28,17 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:text="logo"
-            android:background="#AAAAAA"/>  //가운데 로고 이미지
+            android:background="#AAAAAA"/>
 
-
+        //오른쪽 위 마이페이지 버튼
         <Button
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/btn_background"/>  //오른쪽 위 마이페이지 버튼
+            android:background="@drawable/btn_background"/>
 
-
+        //최단 경로 안내 텍스트
         <TextView
             android:layout_width="162dp"
             android:layout_height="33dp"
@@ -47,9 +48,9 @@
             android:textStyle="bold"
             android:textColor="#000000"
             android:letterSpacing="-0.03"
-            android:fontFamily="@font/notosans_bold"/>   //최단 경로 안내 텍스트
+            android:fontFamily="@font/notosans_bold"/>
 
-
+        //슈니님이... 텍스트
         <TextView
             android:id="@+id/page3.1_subtitle"
             android:layout_width="275dp"
@@ -59,14 +60,14 @@
             android:textSize="16dp"
             android:textColor="#000000"
             android:letterSpacing="-0.03"
-            android:fontFamily="@font/notosans_extralight" />   //슈니님이... 텍스트
+            android:fontFamily="@font/notosans_extralight" />
 
-
+        //뷰페이져 레이아웃
         <include layout="@layout/page3_1_viewpage"
             android:id="@+id/page3_1_viewpage"
             android:layout_marginTop="183dp"
-            android:layout_height="430dp"
-            android:layout_width="match_parent" />  //뷰페이져 레이아웃
+            android:layout_height="380dp"
+            android:layout_width="match_parent" />
 
 
         <LinearLayout
@@ -78,7 +79,7 @@
             android:layout_marginRight="16dp"
             android:orientation="horizontal">
 
-
+            //수정하기 버튼
             <Button
                 android:id="@+id/page3.1_revise_btn"
                 android:layout_width="0dp"
@@ -89,9 +90,9 @@
                 android:textColor="#ffffff"
                 android:fontFamily="@font/notosans_semibold"
                 android:background="@drawable/box_round2"
-                android:elevation="8dp" />  //수정하기 버튼
+                android:elevation="8dp" />
 
-
+            //다음단계 버튼
             <Button
                 android:id="@+id/page3.1_nextstep_btn"
                 android:layout_width="0dp"
@@ -103,7 +104,7 @@
                 android:fontFamily="@font/notosans_semibold"
                 android:layout_marginLeft="19dp"
                 android:background="@drawable/box_round3"
-                android:elevation="8dp" />  //다음단계 버튼
+                android:elevation="8dp" />
 
         </LinearLayout>
 
