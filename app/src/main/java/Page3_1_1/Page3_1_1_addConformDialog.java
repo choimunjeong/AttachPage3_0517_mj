@@ -24,14 +24,16 @@ public class Page3_1_1_addConformDialog extends BottomSheetDialogFragment {
 
     Page3_1_1_Main page3_1_1_main;
     GoAlgorithPage goAlgorithPage;   //인터페이스
-    String name;
+    String name, date, dayPass;
 
 
 
-    public static Page3_1_1_addConformDialog getInstance(String name){
+    public static Page3_1_1_addConformDialog getInstance(String name, String date, String dayPass){
         Page3_1_1_addConformDialog dialog = new Page3_1_1_addConformDialog();
         Bundle args = new Bundle();
         args.putString("name", name);
+        args.putString("date", date);
+        args.putString("dayPass", dayPass);
         dialog.setArguments(args);
         return dialog;
     }
@@ -59,6 +61,8 @@ public class Page3_1_1_addConformDialog extends BottomSheetDialogFragment {
         //액티비티에서 값을 전달 받음
         Bundle extra = getArguments();
         name = extra.getString("name");
+        date = extra.getString("date");
+        dayPass = extra.getString("dayPass");
 
         TextView stationName = rootview.findViewById(R.id.page3_1_1_addStation);
         stationName.setText(name);

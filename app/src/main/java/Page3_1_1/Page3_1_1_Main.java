@@ -53,6 +53,9 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
     String readStr = "";
     private List<String> getdata_list = new ArrayList<String>();   //데이터를 넣을 리스트 변수
 
+    //앞에서 전달한 값
+    String date, dayPass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,9 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         //앞에서 보내는 값을 받음
         Intent intent = getIntent();
         result =  intent.getStringExtra("result");
+        date = intent.getExtras().getString("date");
+        dayPass = intent.getExtras().getString("dayPass");
+
 
 
         //리사이클러뷰
@@ -109,7 +115,7 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
             @Override
             public void onChanged() {
                 super.onChanged();
-                Page3_1_1_addConformDialog conformDialog = Page3_1_1_addConformDialog.getInstance(list.get(list.size()-1).getName());
+                Page3_1_1_addConformDialog conformDialog = Page3_1_1_addConformDialog.getInstance(list.get(list.size()-1).getName(), date, dayPass);
                 conformDialog.show(getSupportFragmentManager(), "confirm");
             }
         });
@@ -138,6 +144,8 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
 
                 Intent intent = new Intent(Page3_1_1_Main.this, Page3_1_Main.class);
                 intent.putExtra("list", (Serializable) send_list);
+                intent.putExtra("date", date);  //날짜
+                intent.putExtra("dayPass", dayPass);
                 startActivity(intent);
             }
         });
@@ -254,6 +262,8 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
 
         Intent intent = new Intent(this, Page3_1_Main.class);
         intent.putExtra("list", (Serializable) send_list);
+        intent.putExtra("date", date);  //날짜
+        intent.putExtra("dayPass", dayPass);
         startActivity(intent);
     }
 

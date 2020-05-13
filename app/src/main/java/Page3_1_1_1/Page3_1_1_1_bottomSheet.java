@@ -48,6 +48,7 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
     String startCode, endCode, trainCode;
     String[] trainCodelist = {"01", "02", "03", "04", "08", "09", "15"};
     int isMiddle = 0;
+    String date;
 
 
     public Page3_1_1_1_bottomSheet(@NonNull Context context) {
@@ -67,11 +68,14 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
         arrplacenameList = new ArrayList<>();
         arrplacenameList_middle = new ArrayList<>();
 
+
     }
 
+
     @Override
-    public void send(ArrayList<String> data) {
+    public void send(ArrayList<String> data, String date) {
         data_split = data.get(0).split(",");
+        this.date = date;
 
             for(int p =0; p < data_split.length-1; p++){
                 if(p != 0){
@@ -126,7 +130,7 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
                         "&pageNo=1&" +
                         "depPlaceId=" + startCode +
                         "&arrPlaceId=" + endCode +
-                        "&depPlandTime=" + "20200429" +
+                        "&depPlandTime=" + date +
                         "&trainGradeCode=" + trainCode +
                         "&_type=json");
 

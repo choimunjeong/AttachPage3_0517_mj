@@ -141,6 +141,7 @@ public class SubwayController {
 
                 //열차 노선번호 비교했는데 다를 경우
                 else {
+                    sb.append(","+ item.get(i).toString());
                     transfer = true;
                     middletime = time;
                     sb.append("\n"+ "시간," +time);

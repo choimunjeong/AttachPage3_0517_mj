@@ -97,8 +97,6 @@ public class Page3_1_Main extends AppCompatActivity {
             fix_order_algorithm();
         }
 
-        Log.i("ㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗㅗ", result);
-
 
         vpAdapter = new Page3_VPAdapter(getSupportFragmentManager());
         vpAdapter.getText(result);
@@ -113,6 +111,8 @@ public class Page3_1_Main extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(Page3_1_Main.this, Page3_1_1_Main.class);
                 intent.putExtra("result", result);           //추가된 역
+                intent.putExtra("date", date);  //날짜
+                intent.putExtra("dayPass", dayPass);
                 startActivity(intent);
             }
         });
@@ -126,6 +126,8 @@ public class Page3_1_Main extends AppCompatActivity {
                 forPage3_1_1_1(result);
                 Intent intent = new Intent(Page3_1_Main.this, Page3_1_1_1_Main.class);
                 intent.putExtra("next_data", next_data);
+                intent.putExtra("date", date);  //날짜
+                intent.putExtra("dayPass", dayPass);
                 startActivity(intent);
             }
         });
@@ -189,6 +191,7 @@ public class Page3_1_Main extends AppCompatActivity {
 
     }
 
+
     //지정한 순서대로 알고리즘 실행
     public void fix_order_algorithm(){
         // 빌더를 생성
@@ -215,6 +218,7 @@ public class Page3_1_Main extends AppCompatActivity {
                 result = result + search + "\r\n";
         }
     }
+
 
     //알고리즘 값을 정리
     public void forPage3_1_1_1(String result) {

@@ -3,6 +3,7 @@ package Page3_1_1_1;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public  class Page3_1_1_1_Main extends AppCompatActivity {
     TextView addSpot;
-    String spot;
+    String date, dayPass;
     ArrayList<String> next_data;
     ArrayList<String> next_data_second;
     String split_1 [];
@@ -35,6 +36,10 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         Intent intent = getIntent();
         next_data = (ArrayList<String>) intent.getSerializableExtra("next_data");
         next_data_second = (ArrayList<String>) intent.getSerializableExtra("next_data");
+        date = (intent.getExtras().getString("date")).replaceAll("[^0-9]", "");
+        dayPass = intent.getExtras().getString("dayPass");
+
+        Log.i("데이트", date);
 
         for(int i =0; i < next_data.size(); i++){
             split_1 = next_data.get(i).split(",");
@@ -62,6 +67,20 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","2일차"));
         list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","3일차"));
 
+        //5일차면
+        if(dayPass.contains("5")){
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","4일차"));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","5일차"));
+        }
+
+        //7일차면
+        else if(dayPass.contains("7")){
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","4일차"));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","5일차"));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","6일차"));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","7일차"));
+        }
+
         // 레이아웃 안에 레이아웃 만들기
         LinearLayout contentsLayout = (LinearLayout) findViewById(R.id.page3_1_1_box_round);
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,7 +91,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 Adapter 객체 지정.
-        final Page3_1_1_1_trainAdapter adapter = new Page3_1_1_1_trainAdapter(list);
+        final Page3_1_1_1_trainAdapter adapter = new Page3_1_1_1_trainAdapter(list, date);
         recyclerView.setAdapter(adapter);
 
         // 드래그 이벤트

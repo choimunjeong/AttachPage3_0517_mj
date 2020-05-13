@@ -15,12 +15,13 @@
         //'T' 모양 아이콘
         <TextView
             android:layout_margin="1dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:background="@drawable/circle3"
             android:textColor="#ffffff"
             android:text="T"
-            android:gravity="center_horizontal|center_vertical"
+            android:layout_centerInParent="true"
+            android:gravity="center"
             android:textSize="15dp"
             android:fontFamily="@font/notosans"/>
     </RelativeLayout>
@@ -28,9 +29,19 @@
     //기차검색창 부분
     <RelativeLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_height="32dp"
+        android:layout_weight="5"
+        android:gravity="center_vertical"
         android:layout_marginRight="8dp">
+
+        //돋보기 이미지
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="11dp"
+            android:background="@drawable/ic_search"/>
 
         <TextView
             android:id="@+id/searchTime_Page3_1_1_shadow"
@@ -42,20 +53,22 @@
             android:visibility="invisible"
             android:textSize="10dp"/>
 
+        //기차시간검색 텍스트
         <TextView
             android:id="@+id/searchTime_Page3_1_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="기차 시간 검색"
             android:clickable="true"
-            android:gravity="center"
-            android:textSize="25dp"/>
+            android:layout_toRightOf="@id/search_img"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:textSize="14dp"/>
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/box_stroke"/>
-
     </RelativeLayout>
 
 
@@ -63,8 +76,9 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:orientation="horizontal">
+        android:layout_weight="5"
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
 
         <TextView
             android:id="@+id/course_Page3_1_1"
@@ -72,7 +86,8 @@
             android:layout_height="wrap_content"
             android:text="용산-군산"
             android:gravity="center"
-            android:textSize="25dp"/>
+            android:textColor="#000000"
+            android:textSize="19dp"/>
 </LinearLayout>
 
 </LinearLayout>
