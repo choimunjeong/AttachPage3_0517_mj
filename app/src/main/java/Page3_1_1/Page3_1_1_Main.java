@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -27,6 +28,10 @@ import java.util.List;
 
 import Page3_1.Page3_1_Main;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+
 public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBottomSheet.onSetList, Page3_1_1_addConformDialog.GoAlgorithPage {
 
     Page3_1_1_Main page3_1_1_main;
@@ -35,7 +40,6 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
     private ArrayList<Page3_1_1_dargData> list = new ArrayList<>();
     Page3_1_1_adapter adapter = new Page3_1_1_adapter(list);
     String result;
-    List<Page3_1_Main.item_data> next_data;
     int number = 0;
 
     boolean checkStart = false;     //'출발'을 한 번만 넣기 위함
@@ -43,13 +47,12 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
     ArrayList<String> result_name = new ArrayList<String>();
     ArrayList<String> result_number = new ArrayList<String>();
 
-    Button add_city, revise_done;
+    Button  add_city, revise_done;
 
     //알고리즘 페이지게 값을 전달하기 위한 부분
     String[] code_name = null;
     String[] code = new String[237];
     String[] name = new String[237];
-    int i = 0;
     String readStr = "";
     private List<String> getdata_list = new ArrayList<String>();   //데이터를 넣을 리스트 변수
 
@@ -68,17 +71,18 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         dayPass = intent.getExtras().getString("dayPass");
 
 
-
         //리사이클러뷰
         recyclerView = (RecyclerView)findViewById(R.id.page3_1_1_RecyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(page3_1_1_main));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
+
         //드래그 기능
         SwipeAndDragHelper swipeAndDragHelper = new SwipeAndDragHelper(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(swipeAndDragHelper);
         adapter.setTouchHelper(touchHelper);
+
 
         //리사이클러뷰-드래그 연결
         touchHelper.attachToRecyclerView(recyclerView);
@@ -146,6 +150,8 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
                 intent.putExtra("list", (Serializable) send_list);
                 intent.putExtra("date", date);  //날짜
                 intent.putExtra("dayPass", dayPass);
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -264,11 +270,17 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         intent.putExtra("list", (Serializable) send_list);
         intent.putExtra("date", date);  //날짜
         intent.putExtra("dayPass", dayPass);
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
+    }
 
     private void settingList() {
         AssetManager am = getResources().getAssets();

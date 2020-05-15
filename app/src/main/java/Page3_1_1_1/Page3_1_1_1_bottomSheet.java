@@ -39,12 +39,15 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
 
     String receiveMsg;
     String [] data_split;
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> arrplacenameList;
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> arrplacenameList_middle;
+    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> completeList;             //정제된 리스트값
+    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> header_data;              //정제전 헤더값
+    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> child1_data;               //정제전 차일드 값(경유1
+    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> child2_data;               //정제전 차일드 값9경유2
+    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> child3_data;               //정제전 차일드 값(경유3
     String[] arr_line;
     String[] arr_all;
     String[] _name = new String[238];           //txt에서 받은 역이름
-    String[] _code = new String[238];       //txt에서 받은 역코드
+    String[] _code = new String[238];           //txt에서 받은 역코드
     String startCode, endCode, trainCode;
     String[] trainCodelist = {"01", "02", "03", "04", "08", "09", "15"};
     int isMiddle = 0;
@@ -65,8 +68,11 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
         recyclerView = (RecyclerView) findViewById(R.id.api_list);
         recyclerView.setLayoutManager( new LinearLayoutManager(context));
         recyclerView.setHasFixedSize(true);
-        arrplacenameList = new ArrayList<>();
-        arrplacenameList_middle = new ArrayList<>();
+        completeList = new ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item>();
+        header_data = new ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item>();
+        child1_data = new ArrayList<>();
+        child2_data = new ArrayList<>();
+        child3_data = new ArrayList<>();
 
 
     }
@@ -78,9 +84,10 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
         this.date = date;
 
             for(int p =0; p < data_split.length-1; p++){
-                if(p != 0){
+
+                if(p != 0)
                     isMiddle++;
-                }
+
                 compareStation(data_split[p], data_split[p+1]);
 
                 //열차 종류별 api 검색(1)
@@ -96,21 +103,167 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
                     }
                 }
 
-//                if(p==1){
-//                    for(int i = 0; i < arrplacenameList.size(); i++){
-//                        for(int r = 0; i <arrplacenameList_middle.size(); r++){
-//                            if(Integer.parseInt(arrplacenameList.get(i).getArrTime() + 5) < Integer.parseInt(arrplacenameList_middle.get(r).getDepTime())) {
-//                                arrplacenameList.add(new ApiAdapter.Api_Item(ApiAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
-//                                continue;
-//                            }
-//                        }
-//                    }
-//
-//                }
         }
 
-        Page3_1_1_1_bottomSheetAdapter apiAdapter = new Page3_1_1_1_bottomSheetAdapter(arrplacenameList);
-        Collections.sort(arrplacenameList);
+        //출발 시간 정렬
+        Collections.sort(header_data);
+
+        //직행이라면
+        if(isMiddle==0){
+            completeList = header_data;
+        }
+
+
+        //환승한다면
+        else{
+            switch (isMiddle){
+
+                //1회 환승
+                case 1:
+                    Collections.sort(child1_data);
+
+                    //첫번째 기차의 시간표이 기준
+                    for(int i =0; i < header_data.size(); i++){
+                        String [] header_time_split = header_data.get(i).getArrTime().split(":");
+
+                        //도착시간이 자정을 넘기면 스케줄에 포함하지 않음
+                        if(Integer.parseInt(header_time_split[0].replaceAll("[^0-9]", "")) < 3)
+                            continue;
+
+                        //도착시간과 환승역의 출발시간을 비교해서 리스트에 넣어줌
+                        for(int p=0; p < child1_data.size(); p++) {
+                            String [] child1_time_split = child1_data.get(p).getDepTime().split(":");
+                            if(Integer.parseInt(header_time_split[0].replaceAll("[^0-9]", "")) <= Integer.parseInt(child1_time_split[0])
+                            && Integer.parseInt(header_time_split[1])+10 < Integer.parseInt(child1_time_split[1].replaceAll("[^0-9]", "")) ){
+                                    completeList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(
+                                            Page3_1_1_1_bottomSheetAdapter.HEADER,
+                                            header_data.get(i).getDepTime()+"\n"+child1_data.get(p).getDepTime(),
+                                            header_data.get(i).getArrTime()+ "\n" + child1_data.get(p).getArrTime(),
+                                            header_data.get(i).getSpendTime() + "\n" + child1_data.get(p).getSpendTime(),
+                                            header_data.get(i).getTrainNumber() + "\n" + child1_data.get(p).getTrainNumber()
+                                    ));
+                                    break;
+                            }
+                        }
+                    }
+                    break;
+
+
+                //2회 환승
+                case 2:
+                    Collections.sort(child1_data);
+                    Collections.sort(child2_data);
+
+                    //첫번째 기차의 시간표이 기준
+                    for(int i =0; i < header_data.size(); i++){
+                        String [] header_time_split = header_data.get(i).getArrTime().split(":");
+
+                        //도착시간이 자정을 넘기면 스케줄에 포함하지 않음
+                        if(Integer.parseInt(header_time_split[0].replaceAll("[^0-9]", "")) < 3)
+                            continue;
+
+                        //환승(1)
+                        for(int p=0; p < child1_data.size(); p++) {
+                            String [] child1_Deptime_split = child1_data.get(p).getDepTime().split(":");
+                            String [] child1_Arrtime_split = child1_data.get(p).getArrTime().split(":");
+
+                            //도착시간이 자정을 넘기면 스케줄에 포함하지 않음
+                            if(Integer.parseInt(child1_Arrtime_split[0].replaceAll("[^0-9]", "")) < 3)
+                                continue;;
+
+                            //환승(2)
+                            //도착시간과 환승역의 출발시간을 비교해서 리스트에 넣어줌
+                            for(int t=0; t < child2_data.size(); t++){
+                                String [] child2_time_split = child2_data.get(t).getDepTime().split(":");
+
+                                if(Integer.parseInt(header_time_split[0].replaceAll("[^0-9]", "")) <= Integer.parseInt(child1_Deptime_split[0])
+                                && Integer.parseInt(header_time_split[1])+10 < Integer.parseInt(child1_Deptime_split[1].replaceAll("[^0-9]", ""))
+                                && Integer.parseInt(child1_Arrtime_split[0].replaceAll("[^0-9]", "")) <= Integer.parseInt(child2_time_split[0])
+                                && Integer.parseInt(child1_Arrtime_split[1])+10  < Integer.parseInt(child2_time_split[1].replaceAll("[^0-9]", ""))  ){
+
+                                    completeList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(
+                                            Page3_1_1_1_bottomSheetAdapter.HEADER,
+                                            header_data.get(i).getDepTime()+"\n"+child1_data.get(p).getDepTime() +"\n"+child2_data.get(t).getDepTime(),
+                                            header_data.get(i).getArrTime()+ "\n" + child1_data.get(p).getArrTime() + "\n" + child2_data.get(t).getArrTime(),
+                                            header_data.get(i).getSpendTime() + "\n" + child1_data.get(p).getSpendTime() + "\n" + child2_data.get(t).getSpendTime(),
+                                            header_data.get(i).getTrainNumber() + "\n" + child1_data.get(p).getTrainNumber() + "\n" + child2_data.get(t).getTrainNumber()
+                                    ));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+
+
+                //3회 환승
+                case 3:
+                    Collections.sort(child1_data);
+                    Collections.sort(child2_data);
+                    Collections.sort(child3_data);
+
+                    //첫번째 기차의 시간표이 기준
+                    for(int i =0; i < header_data.size(); i++){
+                        String [] header_time_split = header_data.get(i).getArrTime().split(":");
+
+                        //도착시간이 자정을 넘기면 스케줄에 포함하지 않음
+                        if(Integer.parseInt(header_time_split[0].replaceAll("[^0-9]", "")) < 3)
+                            continue;
+
+                        //환승(1)
+                        for(int p=0; p < child1_data.size(); p++) {
+                            String [] child1_Deptime_split = child1_data.get(p).getDepTime().split(":");
+                            String [] child1_Arrtime_split = child1_data.get(p).getArrTime().split(":");
+
+                            //도착시간이 자정을 넘기면 스케줄에 포함하지 않음
+                            if(Integer.parseInt(child1_Arrtime_split[0].replaceAll("[^0-9]", "")) < 3)
+                                continue;
+
+                            //환승(2)
+                            for(int t=0; t < child2_data.size(); t++){
+                                String [] child2_Deptime_split = child2_data.get(t).getDepTime().split(":");
+                                String [] child2_Arrtime_split = child2_data.get(t).getArrTime().split(":");
+
+                                //도착시간이 자정을 넘기면 스케줄에 포함하지 않음
+                                if(Integer.parseInt(child2_Arrtime_split[0].replaceAll("[^0-9]", "")) < 3)
+                                    continue;
+
+                                //환승(3)
+                                //도착시간과 환승역의 출발시간을 비교해서 리스트에 넣어줌
+                                for(int g = 0; g < child3_data.size(); g++){
+                                    String [] child3_time_split = child3_data.get(g).getDepTime().split(":");
+
+                                    if(Integer.parseInt(header_time_split[0].replaceAll("[^0-9]", "")) <= Integer.parseInt(child1_Deptime_split[0])
+                                            && Integer.parseInt(header_time_split[1])+10 < Integer.parseInt(child1_Deptime_split[1].replaceAll("[^0-9]", ""))
+                                            && Integer.parseInt(child1_Arrtime_split[0].replaceAll("[^0-9]", "")) <= Integer.parseInt(child2_Deptime_split[0])
+                                            && Integer.parseInt(child1_Arrtime_split[1])+10  < Integer.parseInt(child2_Deptime_split[1].replaceAll("[^0-9]", ""))
+                                            && Integer.parseInt(child2_Arrtime_split[0].replaceAll("[^0-9]", "")) <= Integer.parseInt(child3_time_split[0])
+                                            && Integer.parseInt(child2_Arrtime_split[1])+10  <  Integer.parseInt(child3_time_split[1].replaceAll("[^0-9]", ""))  ){
+
+                                        completeList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(
+                                                Page3_1_1_1_bottomSheetAdapter.HEADER,
+                                                header_data.get(i).getDepTime()+"\n"+child1_data.get(p).getDepTime() +"\n"+child2_data.get(t).getDepTime() +"\n"+child3_data.get(g).getDepTime(),
+                                                header_data.get(i).getArrTime()+ "\n" + child1_data.get(p).getArrTime() + "\n" + child2_data.get(t).getArrTime() +"\n"+child3_data.get(g).getArrTime(),
+                                                header_data.get(i).getSpendTime() + "\n" + child1_data.get(p).getSpendTime() + "\n" + child2_data.get(t).getSpendTime() +"\n"+child3_data.get(g).getSpendTime(),
+                                                header_data.get(i).getTrainNumber() + "\n" + child1_data.get(p).getTrainNumber() + "\n" + child2_data.get(t).getTrainNumber() +"\n"+child3_data.get(g).getTrainNumber()
+                                        ));
+                                        break;
+                                    }
+                                }
+
+
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+
+
+
+
+        Page3_1_1_1_bottomSheetAdapter apiAdapter = new Page3_1_1_1_bottomSheetAdapter(completeList);
+        //Collections.sort(arrplacenameList);
         recyclerView.setAdapter(apiAdapter);
 
     }
@@ -144,7 +297,7 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
                         buffer.append(str);
                     }
                     receiveMsg = buffer.toString();
-
+                    Log.i("ㅗㅗㅗㅗㅗㅗ" , receiveMsg);
                 } else {
                     Log.i("통신 결과", conn.getResponseCode() + "에러");
                 }
@@ -193,17 +346,18 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements send {
 
                 switch (isMiddle) {
                     case 0:
-                        arrplacenameList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.HEADER, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
+                        header_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.HEADER, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
+                        //arrplacenameList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.HEADER, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
                         break;
                     case 1:
-                        arrplacenameList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
-                        // arrplacenameList.add(new ApiAdapter.Api_Item(ApiAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
+                        child1_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
+                        //arrplacenameList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
                         break;
                     case 2:
-                        arrplacenameList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
+                        child2_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
                         break;
                     case 3:
-                        arrplacenameList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
+                        child3_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2)+depplacename, arrplacename+arrTime.substring(0,2)+":"+arrTime.substring(2), "("+ String.valueOf(time)+"분)", traingradename));
                         break;
                     default:
                         break;

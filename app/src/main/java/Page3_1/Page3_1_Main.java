@@ -28,6 +28,12 @@ import java.util.List;
 import Page3_1_1.Page3_1_1_Main;
 import Page3_1_1_1.Page3_1_1_1_Main;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+import static android.content.Intent.FLAG_ACTIVITY_NO_HISTORY;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
+
 public class Page3_1_Main extends AppCompatActivity {
     ViewPager viewPager;
     Page3_VPAdapter vpAdapter;
@@ -113,6 +119,8 @@ public class Page3_1_Main extends AppCompatActivity {
                 intent.putExtra("result", result);           //추가된 역
                 intent.putExtra("date", date);  //날짜
                 intent.putExtra("dayPass", dayPass);
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -128,6 +136,8 @@ public class Page3_1_Main extends AppCompatActivity {
                 intent.putExtra("next_data", next_data);
                 intent.putExtra("date", date);  //날짜
                 intent.putExtra("dayPass", dayPass);
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
             }
         });
@@ -642,6 +652,17 @@ public class Page3_1_Main extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        next_data.clear();
+        result_name.clear();
+        result_number.clear();
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
+    }
 }

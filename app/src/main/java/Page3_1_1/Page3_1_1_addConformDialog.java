@@ -65,7 +65,7 @@ public class Page3_1_1_addConformDialog extends BottomSheetDialogFragment {
         dayPass = extra.getString("dayPass");
 
         TextView stationName = rootview.findViewById(R.id.page3_1_1_addStation);
-        stationName.setText(name);
+        stationName.setText(name+"역");
 
         //새로운 경로 찾기 버튼을 누르면
         RelativeLayout newRoute_btn = rootview.findViewById(R.id.page3_1_1_newroute_btn);

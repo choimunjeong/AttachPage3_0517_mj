@@ -123,9 +123,9 @@ public class Page3_1_fragment1 extends Fragment {
                     int Min = Integer.parseInt(result_time.get(i)) % 60;
 
                     if (Hour == 0) {
-                        time = "약 " + Integer.toString(Min) + "분";
+                        time = Integer.toString(Min) + "분";
                     } else
-                        time = "약 " + Integer.toString(Hour) + "시간 " + Integer.toString(Min) + "분";
+                        time = Integer.toString(Hour) + "시간 " + Integer.toString(Min) + "분";
 
                 } else {
                     time = "";

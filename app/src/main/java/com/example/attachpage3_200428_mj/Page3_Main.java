@@ -47,6 +47,9 @@ import java.util.Locale;
 
 import Page3_1.Page3_1_Main;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION;
+
 public class Page3_Main extends AppCompatActivity  {
 
     //태그 관련 변수
@@ -450,7 +453,8 @@ public class Page3_Main extends AppCompatActivity  {
                     intent.putExtra("list", (Serializable) send_list);           //추가된 역
                     intent.putExtra("date", editDate.getText().toString());  //날짜
                     intent.putExtra("dayPass", dayPass);                     //일권
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
 
                 }

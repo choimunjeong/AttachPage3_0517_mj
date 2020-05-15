@@ -19,6 +19,8 @@ import com.example.attachpage3_200428_mj.R;
 
 import java.util.ArrayList;
 
+import Page3_1.Page3_1_Main;
+
 public  class Page3_1_1_1_Main extends AppCompatActivity {
     TextView addSpot;
     String date, dayPass;
@@ -27,6 +29,9 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
     String split_1 [];
     private ArrayList<Page3_1_1_1_dargData> getitem = new ArrayList<>();
     LayoutInflater inflater;
+    Page3_1_1_1_trainAdapter adapter;
+    ArrayList<RecycleItem> list = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
             getitem.add(new Page3_1_1_1_dargData(split_1[0], split_1[1]));
         }
 
-        ArrayList<RecycleItem> list = new ArrayList<>();
+
         list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "1일차"));
 
         //환승인지 아닌지 걸러내는 작업
@@ -91,7 +96,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 Adapter 객체 지정.
-        final Page3_1_1_1_trainAdapter adapter = new Page3_1_1_1_trainAdapter(list, date);
+        adapter = new Page3_1_1_1_trainAdapter(list, date);
         recyclerView.setAdapter(adapter);
 
         // 드래그 이벤트
@@ -140,5 +145,20 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
             return this.days;
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        list.clear();
+        getitem.clear();
+    }
+
 
 }
