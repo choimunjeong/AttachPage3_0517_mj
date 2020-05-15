@@ -2,39 +2,44 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_marginTop="24dp"
-    android:paddingLeft="13dp"
-    android:paddingStart="13dp"
-    android:paddingRight="10dp"
-    android:paddingEnd="10dp"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
     android:background="#F8EFE0"
     android:id="@+id/list_header"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="30dp"
     android:orientation="horizontal">
 
     // N일차
     // 헤더 타이틀부분
     <TextView
         android:id="@+id/header_title"
-        android:textSize="18sp"
-        android:gravity="center_vertical"
         android:layout_width="0dp"
-        android:textColor="#563B12"
-        android:fontFamily="@font/notosans"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="8"
+        android:layout_marginLeft="17dp"
+        android:gravity="center_vertical"
+        android:text="ddd"
+        android:textSize="17sp"
+        android:textColor="#563B12"
+        android:fontFamily="@font/notosans_regular"/>
 
     // 위아래로 이동할 수 있는 버튼
-    <TextView
-        android:id="@+id/move_btn"
-        android:text="="
-        android:textSize="30dp"
-        android:gravity="center"
+    <RelativeLayout
         android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_weight="0"
-        android:clickable="true"/>
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/move_btn_img"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="7dp"
+            android:background="@drawable/ic_icon_move"/>
+        <TextView
+            android:id="@+id/move_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00FFFFFF"
+            android:clickable="true" />
+    </RelativeLayout>
 
 </LinearLayout>

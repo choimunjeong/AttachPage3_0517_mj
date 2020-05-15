@@ -17,13 +17,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attachpage3_200428_mj.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import Page3_1.Page3_1_Main;
+import Page3_1_1.Page3_1_1_addConformDialog;
 
 public  class Page3_1_1_1_Main extends AppCompatActivity {
     TextView addSpot;
-    String date, dayPass;
+    String date= null, dayPass = null;
     ArrayList<String> next_data;
     ArrayList<String> next_data_second;
     String split_1 [];
@@ -31,6 +37,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
     LayoutInflater inflater;
     Page3_1_1_1_trainAdapter adapter;
     ArrayList<RecycleItem> list = new ArrayList<>();
+    String day1_date, day2_date, day3_date, day4_date, day5_date, day6_date, day7_date;
 
 
     @Override
@@ -44,7 +51,25 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         date = (intent.getExtras().getString("date")).replaceAll("[^0-9]", "");
         dayPass = intent.getExtras().getString("dayPass");
 
-        Log.i("데이트", date);
+        //날짜를 더할때 실제 날짜 반영해서 더해야함
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        Date date_format = null;
+        try {
+            date_format = dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date_format);
+
+        day1_date = date;
+        calendar.add(Calendar.DATE, 1);
+        day2_date = dateFormat.format(calendar.getTime());
+        calendar.add(Calendar.DATE, 1);
+        day3_date = dateFormat.format(calendar.getTime());
+
+
+
 
         for(int i =0; i < next_data.size(); i++){
             split_1 = next_data.get(i).split(",");
@@ -52,38 +77,54 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         }
 
 
-        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "1일차"));
+        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "1일차", day1_date));
 
         //환승인지 아닌지 걸러내는 작업
         for(int i =0; i < next_data.size()-1; i++){
             if(!getitem.get(i).getNumber().contains("환승") ){
                 if(!getitem.get(i+1).getNumber().contains("환승")) {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName() + "," + getitem.get(i + 1).getName(), getitem.get(i).getName() + "-" + getitem.get(i + 1).getName()));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName() + "," + getitem.get(i + 1).getName(), getitem.get(i).getName() + " - " + getitem.get(i + 1).getName(), day1_date ));
                 }
                 else if(!getitem.get(i+2).getNumber().contains("환승")) {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName(), getitem.get(i).getName()+"-"+getitem.get(i+2).getName()));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName(), getitem.get(i).getName()+" - "+getitem.get(i+2).getName() ,  day1_date ));
                 } else if(!getitem.get(i+3).getNumber().contains("환승")) {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+"-"+getitem.get(i+3).getName()));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+" - "+getitem.get(i+3).getName() ,  day1_date ));
                 } else {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+"-"+getitem.get(i+4).getName()));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+" - "+getitem.get(i+4).getName() ,  day1_date));
                 }
             }
         }
-        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","2일차"));
-        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","3일차"));
+        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","2일차",  day2_date));
+        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","3일차",  day3_date));
 
         //5일차면
         if(dayPass.contains("5")){
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","4일차"));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","5일차"));
+            //날짜 더해줌
+            calendar.add(Calendar.DATE, 1);
+            day4_date = dateFormat.format(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+            day5_date = dateFormat.format(calendar.getTime());
+
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date));
         }
 
         //7일차면
         else if(dayPass.contains("7")){
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","4일차"));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","5일차"));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","6일차"));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","7일차"));
+            //날짜 더해줌
+            calendar.add(Calendar.DATE, 1);
+            day4_date = dateFormat.format(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+            day5_date = dateFormat.format(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+            day6_date = dateFormat.format(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+            day7_date = dateFormat.format(calendar.getTime());
+
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date ));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "6일차", day6_date ));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "7일차", day7_date ));
         }
 
         // 레이아웃 안에 레이아웃 만들기
@@ -96,7 +137,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 Adapter 객체 지정.
-        adapter = new Page3_1_1_1_trainAdapter(list, date);
+        adapter = new Page3_1_1_1_trainAdapter(list);
         recyclerView.setAdapter(adapter);
 
         // 드래그 이벤트
@@ -115,34 +156,26 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
 //                addSpotBottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
             }
         });
+
     }
 
 
 
     public class RecycleItem {
-        String time;
-        String course;
-        String days;
         int type;
         String text;
         String text_shadow;
+        String date;
 
-        public RecycleItem(int type, String text_shadow, String text){
+        public RecycleItem(int type, String text_shadow, String text, String  date){
             this.type = type;
             this.text_shadow = text_shadow;
             this.text = text;
+            this.date = date;
         }
 
-        String getTime() {
-            return this.time;
-        }
-
-        String getCourse() {
-            return this.course;
-        }
-
-        String getDays(){
-            return this.days;
+        public void setDate(String date) {
+            this.date = date;
         }
     }
 

@@ -89,7 +89,7 @@ public class Page3_1_fragment2 extends Fragment {
         //웹뷰 줌기능
         web.getSettings().setBuiltInZoomControls(true);
         web.getSettings().setSupportZoom(true);
-        web.setScrollY(5);
+        web.setScrollY(70);
 
 
         //웹뷰를 로드함
@@ -107,6 +107,7 @@ public class Page3_1_fragment2 extends Fragment {
                 for(int i=0; i < otherStation.size(); i++){
                     web.loadUrl("javascript:setMessage('"+ otherStation.get(i)+"', '#b5b3b3', '#999999')");
                 }
+
                 web.loadUrl("javascript:setMessage('"+startStation+"', '#FE9D0D', '#C18428')");
                 web.loadUrl("javascript:setMessage('"+endStation+"', '#FE800D', '#874407')");
 

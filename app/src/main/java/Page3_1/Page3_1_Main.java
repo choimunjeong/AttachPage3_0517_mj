@@ -652,6 +652,7 @@ public class Page3_1_Main extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -660,9 +661,12 @@ public class Page3_1_Main extends AppCompatActivity {
         result_number.clear();
     }
 
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
     }
+
+
 }

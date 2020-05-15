@@ -96,10 +96,6 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     touchHelper.startDrag(holder);
-                    Log.i("드래그", "누름");
-                }
-                else if(event.getActionMasked() == MotionEvent.ACTION_UP) {
-                    Log.i("드래그", "똄");
                 }
                 return false;
             }
@@ -133,8 +129,9 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     public void onViewMoved(int oldPosition, int newPosition) {
         Collections.swap(mDataset, oldPosition, newPosition);
         notifyItemMoved(oldPosition, newPosition);
-
-        notifyItemRangeChanged(0, mDataset.size());
+        notifyItemChanged(oldPosition);
+        notifyItemChanged(newPosition);
+        //notifyItemRangeChanged(0, mDataset.size());
     }
 
 

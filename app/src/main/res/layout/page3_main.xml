@@ -16,8 +16,7 @@
     <RelativeLayout
         android:id="@+id/layout_page3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="33dp">
+        android:layout_height="match_parent">
 
 
         //왼쪽 위 목록 버튼
@@ -56,7 +55,7 @@
             android:layout_height="33dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             android:text="여행 스케쥴 짜기"
             android:textSize="24dp"
             android:textStyle="bold"
@@ -71,18 +70,19 @@
             android:layout_height="22dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="129dp"
+            android:layout_marginTop="110dp"
             android:text="당신을 위한 최적의 경로를 추천해드립니다."
             android:textSize="16dp"
             android:textColor="#000000"
-            android:letterSpacing="-0.03"
-            android:fontFamily="@font/notosans_extralight" />
+            android:letterSpacing="-0.03" />
 
         //출발 날짜 텍스트
         <TextView
-            android:layout_width="80dp"
+            android:id="@+id/page3_text"
+            android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_marginTop="183dp"
+            android:layout_below="@id/page3_subtitle"
+            android:layout_marginTop="32dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:text="출발 날짜"
@@ -95,9 +95,12 @@
         //출발 날짜 입력받는 흰 박스
         <EditText
             android:id="@+id/page3_date"
-            android:layout_width="328dp"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginTop="224dp"
+            android:layout_below="@id/page3_text"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_centerHorizontal="true"
             android:clickable="true"
             android:focusable="false"
@@ -106,14 +109,16 @@
             android:textAlignment="center"
             android:fontFamily="@font/notosans_semibold"
             android:background="@drawable/datebox"
-            android:elevation="3dp" />
+            android:elevation="4dp" />
 
 
         //이용권 텍스트
         <TextView
-            android:layout_width="80dp"
+            android:id="@+id/page3_day"
+            android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_marginTop="296dp"
+            android:layout_below="@+id/page3_date"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:text="이용권"
@@ -128,7 +133,8 @@
             android:id="@+id/dayPass_3"
             android:layout_width="104dp"
             android:layout_height="48dp"
-            android:layout_marginTop="337dp"
+            android:layout_below="@id/page3_day"
+            android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="8dp"
             android:text="3일권"
@@ -144,8 +150,9 @@
             android:id="@+id/dayPass_5"
             android:layout_width="104dp"
             android:layout_height="48dp"
+            android:layout_below="@id/page3_day"
+            android:layout_marginTop="16dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="337dp"
             android:text="5일권"
             android:textSize="16dp"
             android:textColor="#000000"
@@ -158,10 +165,11 @@
             android:id="@+id/dayPass_7"
             android:layout_width="104dp"
             android:layout_height="48dp"
-            android:layout_toRightOf="@id/dayPass_5"
+            android:layout_below="@id/page3_day"
+            android:layout_marginTop="16dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="337dp"
+            android:layout_toRightOf="@id/dayPass_5"
             android:text="7일권"
             android:textSize="16dp"
             android:textColor="#000000"
@@ -171,9 +179,11 @@
 
         //정차역 입력하기 텍스트
         <TextView
-            android:layout_width="125dp"
+            android:id="@+id/page3_edittext"
+            android:layout_width="match_parent"
             android:layout_height="25dp"
-            android:layout_marginTop="409dp"
+            android:layout_below="@+id/dayPass_3"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:text="정차역 입력하기"
@@ -188,23 +198,26 @@
         <include layout="@layout/page3_main_contents"
             android:id="@+id/content_main"
             android:layout_centerHorizontal="true"
-            android:layout_width="328dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/page3_edittext"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="450dp" />
+            android:layout_marginTop="16dp" />
 
 
             <AutoCompleteTextView
                 android:id="@+id/searchStation_page3"
-                android:layout_width="328dp"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_centerHorizontal="true"
+                android:layout_below="@+id/content_main"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:clickable="true"
                 android:completionThreshold="1"
                 android:dropDownHeight="140dp"
-                android:layout_below="@+id/content_main"
-                android:layout_marginTop="16dp"
                 android:background="@drawable/search_stn_page3"
                 android:textColor="#000000"
                 android:drawableLeft="@drawable/baseline_search_24"
@@ -222,8 +235,9 @@
             android:elevation="4dp"
             android:padding="5dp"
             android:layout_below="@+id/searchStation_page3"
-            android:layout_marginLeft="7dp"
-            android:layout_marginRight="8.33dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/webview_touch">
 
@@ -233,9 +247,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
-                android:background="#9ad1d9"
-                 />
-</RelativeLayout>
+                android:background="#9ad1d9" />
+        </RelativeLayout>
 
         //최단 경로 조회하기 버튼
         <Button
@@ -248,9 +261,10 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/notosans_semibold"
             android:layout_below="@+id/page3_svg_bg"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/box_round3"
             android:elevation="4dp" />
 

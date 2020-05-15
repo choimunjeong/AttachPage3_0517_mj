@@ -1,10 +1,12 @@
 package Page3_1_1_1;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,16 +24,15 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     private ItemTouchHelper touchHelper;
     private ArrayList<Page3_1_1_1_Main.RecycleItem> items = null;
 
-    String date;
+    boolean firstdone = false;
 
     //헤더인지 아이템인지 확인하는데 필요함
     public static final int HEADER = 0;
     public static final int CHILD = 1;
 
 
-    Page3_1_1_1_trainAdapter(ArrayList<Page3_1_1_1_Main.RecycleItem> list, String date) {
+    Page3_1_1_1_trainAdapter(ArrayList<Page3_1_1_1_Main.RecycleItem> list) {
         items = list;
-        this.date = date;
     }
 
 
@@ -64,16 +65,22 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
         if (itemViewType == HEADER) {
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             headerViewHolder.header_title.setText(item.text);
+            headerViewHolder.header_title.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("몇먼째냐면", String.valueOf(position));
+                }
+            });
 
             //1일차는 움직이는 버튼 없앰
-            if(position==0){
-                ((HeaderViewHolder) holder).move_btn.setVisibility(View.INVISIBLE);
+            if(position==0 && !firstdone){
+                ((HeaderViewHolder) holder).move_img.setVisibility(View.INVISIBLE);
+                firstdone = true;
             }
 
             headerViewHolder.move_btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-
                     if (motionEvent.getActionMasked() == MotionEvent.ACTION_DOWN) {
                         touchHelper.startDrag(holder);
                     }
@@ -84,6 +91,19 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
 
         //itemViewType == CHILD
         else {
+            //
+            if(position > 0){
+                for(int i =position; i > 0; i--){
+                    if(items.get(i-1).text.contains("일차") ){
+                        item.setDate(items.get(i-1).date);
+                        break;
+                    }
+                }
+            }
+
+
+
+
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             itemViewHolder.mTimeText.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,11 +117,17 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                     Page3_1_1_1_bottomSheet dialog = new Page3_1_1_1_bottomSheet(context);
                     dialog.setContentView(view);
                     dialog.show();
-                    dialog.send(data, date);
+                    dialog.send(data, item.date);
 
                 }
             });
             itemViewHolder.mCourseText.setText(item.text);
+            itemViewHolder.mCourseText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("몇먼째냐면",  item.date+"-"+position);
+                }
+            });
             itemViewHolder.mShadowText.setText(item.text_shadow);
         }
     }
@@ -120,10 +146,17 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public void onItemMove(int fromPos, int toPos) {
-        Page3_1_1_1_Main.RecycleItem target = items.get(fromPos);
-        items.remove(fromPos);
-        items.add(toPos, target);
-        notifyItemMoved(fromPos, toPos);
+        //0번째=1일차로는 움직일 수 없음
+        if(toPos != 0){
+            Page3_1_1_1_Main.RecycleItem target = items.get(fromPos);
+            items.remove(fromPos);
+            items.add(toPos, target);
+            notifyItemMoved(fromPos, toPos);
+            notifyItemChanged(fromPos);
+            notifyItemChanged(toPos);
+        }
+
+        Log.i("움직임ㅇㅋㅇㅋㅇㅋ", "움직임");
     }
 
 
@@ -148,12 +181,14 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
         public TextView header_title;
         public TextView move_btn;
         public LinearLayout list_header;
+        public ImageView move_img;
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
             header_title = (TextView) itemView.findViewById(R.id.header_title);
             move_btn = (TextView) itemView.findViewById(R.id.move_btn);
             list_header = (LinearLayout) itemView.findViewById(R.id.list_header);
+            move_img = (ImageView)itemView.findViewById(R.id.move_btn_img);
         }
     }
 
