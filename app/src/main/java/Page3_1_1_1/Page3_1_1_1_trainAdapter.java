@@ -65,12 +65,6 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
         if (itemViewType == HEADER) {
             final HeaderViewHolder headerViewHolder = (HeaderViewHolder) holder;
             headerViewHolder.header_title.setText(item.text);
-            headerViewHolder.header_title.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("몇먼째냐면", String.valueOf(position));
-                }
-            });
 
             //1일차는 움직이는 버튼 없앰
             if(position==0 && !firstdone){
@@ -91,7 +85,8 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
 
         //itemViewType == CHILD
         else {
-            //
+
+            //이용권바 움직이면 날짜 변동
             if(position > 0){
                 for(int i =position; i > 0; i--){
                     if(items.get(i-1).text.contains("일차") ){
@@ -100,9 +95,6 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                     }
                 }
             }
-
-
-
 
             final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             itemViewHolder.mTimeText.setOnClickListener(new View.OnClickListener() {
@@ -122,12 +114,6 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                 }
             });
             itemViewHolder.mCourseText.setText(item.text);
-            itemViewHolder.mCourseText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.i("몇먼째냐면",  item.date+"-"+position);
-                }
-            });
             itemViewHolder.mShadowText.setText(item.text_shadow);
         }
     }
@@ -155,8 +141,6 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
             notifyItemChanged(fromPos);
             notifyItemChanged(toPos);
         }
-
-        Log.i("움직임ㅇㅋㅇㅋㅇㅋ", "움직임");
     }
 
 
