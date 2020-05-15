@@ -67,14 +67,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="5dp"
             android:layout_below="@+id/page3.1_subtitle">
 
         //뷰페이져 레이아웃
         <include layout="@layout/page3_1_viewpage"
             android:id="@+id/page3_1_viewpage"
             android:layout_height="0dp"
-            android:layout_weight="8"
+            android:layout_weight="7"
             android:layout_width="match_parent" />
 
 

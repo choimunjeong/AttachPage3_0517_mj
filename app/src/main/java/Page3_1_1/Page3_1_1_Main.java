@@ -1,5 +1,6 @@
 package Page3_1_1;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.database.DataSetObservable;
@@ -226,8 +227,20 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
     //도시추가 바텀시트의 인터페이스
     @Override
     public void onsetlist(String text) {
-        list.add(new Page3_1_1_dargData(text , number));
-        adapter.notifyDataSetChanged();
+        if(list.size() < 10){
+            list.add(new Page3_1_1_dargData(text , number));
+            adapter.notifyDataSetChanged();
+        } else {
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+            builder.setTitle("Error");
+            builder.setMessage("추가할 수 있는 개수를 초과했습니다.");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            builder.show();
+        }
     }
 
 
