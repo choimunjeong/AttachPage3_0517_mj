@@ -44,39 +44,37 @@ import java.util.concurrent.ExecutionException;
 import Page3_1_1.Page3_1_1_addBottomSheet;
 
 
-public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements TrainItemTouchHelper.ItemTouchHelperAdapter{
+public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements TrainItemTouchHelper.ItemTouchHelperAdapter{
     private ItemTouchHelper touchHelper;
     private ArrayList<Page3_1_1_1_Main.RecycleItem> items = null;
-FragmentManager fragmentManager;
+
+    //헤더바 위치가 0이면 true로 바뀌고 1일차로 움직일 수 없게 만듦
     boolean firstdone = false;
-
-
-    String receiveMsg;
-    String [] data_split;
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> completeList;             //정제된 리스트값
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> header_data;              //정제전 헤더값
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> child1_data;               //정제전 차일드 값(경유1
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> child2_data;               //정제전 차일드 값9경유2
-    ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> child3_data;               //정제전 차일드 값(경유3
-    String[] arr_line;
-    String[] arr_all;
-    String[] _name = new String[238];           //txt에서 받은 역이름
-    String[] _code = new String[238];           //txt에서 받은 역코드
-    String startCode, endCode, trainCode;
-    String[] trainCodelist = {"01", "02", "03", "04", "08", "09", "15"};
-    int isMiddle = 0;
-    String date;
-
-
 
     //헤더인지 아이템인지 확인하는데 필요함
     public static final int HEADER = 0;
     public static final int CHILD = 1;
     public static final int CITY =2;
 
+    //바텀시트 관련
+    FragmentManager fragmentManager;
+    String receiveMsg;
+    String [] data_split;
+    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> completeList;              //정제된 리스트값
+    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> header_data;               //정제전 헤더값
+    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child1_data;               //정제전 차일드 값(경유1
+    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child2_data;               //정제전 차일드 값(경유2
+    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child3_data;               //정제전 차일드 값(경유3
+    String[] arr_line;
+    String[] arr_all;
+    String[] _name = new String[238];                                              //txt에서 받은 역이름
+    String[] _code = new String[238];                                              //txt에서 받은 역코드
+    String startCode, endCode, trainCode;
+    String[] trainCodelist = {"01", "02", "03", "04", "08", "09", "15"};
+    String date;
 
 
+    //부모 액티비티와 연결
     Page3_1_1_1_trainAdapter(ArrayList<Page3_1_1_1_Main.RecycleItem> list, FragmentManager supportFragmentManager) {
         items = list;
         this.fragmentManager = supportFragmentManager;
@@ -110,6 +108,7 @@ FragmentManager fragmentManager;
     }
 
 
+
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         final Page3_1_1_1_Main.RecycleItem item = items.get(position);
@@ -125,7 +124,7 @@ FragmentManager fragmentManager;
                 ((HeaderViewHolder) holder).move_img.setVisibility(View.INVISIBLE);
                 firstdone = true;
             }
-
+            //움직이는 버튼 누르면 움직임
             headerViewHolder.move_btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -139,6 +138,7 @@ FragmentManager fragmentManager;
 
 
         else if (itemViewType == CHILD) {
+            final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
 
             //이용권바 움직이면 날짜 변동
             if(position > 0){
@@ -150,10 +150,8 @@ FragmentManager fragmentManager;
                 }
             }
             ;
-            final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
             itemViewHolder.mCourseText.setText(item.text);
             itemViewHolder.mShadowText.setText(item.text_shadow);
-            Log.i("움직이나", String.valueOf(itemViewHolder.itemView.getId()));
         }
 
         //itemViewType == CITY
@@ -161,7 +159,6 @@ FragmentManager fragmentManager;
             CityViewHolder cityViewHolder = (CityViewHolder) holder;
             cityViewHolder.city_text.setText(item.text);
         }
-
     }
 
 
@@ -169,12 +166,6 @@ FragmentManager fragmentManager;
     public int getItemCount() {
         return items.size();
     }
-
-
-    public int getItemViewType(int position) {
-        return items.get(position).type;
-    }
-
 
     @Override
     public void onItemMove(int fromPos, int toPos) {
@@ -189,6 +180,9 @@ FragmentManager fragmentManager;
         }
     }
 
+    public int getItemViewType(int position) {
+        return items.get(position).type;
+    }
 
     public void setTouchHelper(ItemTouchHelper touchHelper) {
         this.touchHelper = touchHelper;
@@ -213,6 +207,7 @@ FragmentManager fragmentManager;
         }
     }
 
+
     //촤일드 xml 연결
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         public TextView mTimeText, mCourseText, mShadowText; // 시간, 경로
@@ -228,15 +223,17 @@ FragmentManager fragmentManager;
             item_touch = (LinearLayout) itemView.findViewById(R.id.item_touch);
 
 
-
+            //기차 시간표 부분
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final Context context = v.getContext();   //현재 활성환된 activity에 접근하기 위함
-                    final int pos = getAdapterPosition() ;          //현재 위치를 받아오기 위함
+                    //현재 위치를 받아오기 위함
+                    final Context context = v.getContext();
+                    final int pos = getAdapterPosition() ;
 
                     //바텀시트에 전달할 값
                     ArrayList<String> data = new ArrayList<>();
+                    data.clear();
                     data.add(items.get(pos).text_shadow);
                     String date = items.get(pos).date;
 
@@ -248,17 +245,26 @@ FragmentManager fragmentManager;
 
                     //바텀시트 구성
                     ListView listView = view.findViewById(R.id.api_list);
-                    completeList= new ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item>();
-                    header_data = new ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item>();
+                    completeList= new ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item>();
+                    header_data = new ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item>();
                     child1_data = new ArrayList<>();
                     child2_data = new ArrayList<>();
                     child3_data = new ArrayList<>();
+
+                    //리스트 초기화
+                    completeList.clear();
+                    header_data.clear();
+                    child1_data.clear();
+                    child2_data.clear();
+                    child3_data.clear();
                     settingList(context);
                     send(data, date);
 
+                    //바텀시트 어댑터 연결
                     Page3_1_1_1_bottomSheet_Adapter adapter = new Page3_1_1_1_bottomSheet_Adapter(completeList, context);
                     listView.setAdapter(adapter);
 
+                    //스크롤을 원활하게 하기 위함
                     listView.setOnTouchListener(new ListView.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -281,12 +287,13 @@ FragmentManager fragmentManager;
                         }
                     });
 
+                    //리스트에서 아이템(시간)을 선택하면
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             String[] startTIme = completeList.get(position).getDepTime().split("\n");
                             String[] endTime = completeList.get(position).getArrTime().split("\n");
-                            mTimeText.setText(startTIme[0]+"-"+endTime[endTime.length-1]);
+                            mTimeText.setText(startTIme[0]+" - "+endTime[endTime.length-1]);
                             mTimeText.setTextColor(Color.parseColor("#000000"));
                             mTimeText.setTextSize(16f);
                             search_img.setVisibility(View.INVISIBLE);
@@ -300,6 +307,8 @@ FragmentManager fragmentManager;
         }
     }
 
+
+
     //시티 xml 연결
     public class CityViewHolder extends RecyclerView.ViewHolder {
         public TextView city_text;
@@ -310,6 +319,11 @@ FragmentManager fragmentManager;
         }
     }
 
+
+    /*
+    *바텀시트 관련 함수
+    *****************************************************************************************
+    */
 
     //txt 돌려 역 비교할 배열 만들기(이름 지역코드 동네코드)<-로 구성
     private void settingList(Context context){
@@ -330,7 +344,6 @@ FragmentManager fragmentManager;
         arr_all = readStr.split("\n"); //txt 내용을 줄바꿈 기준으로 나눈다.
 
         //한 줄의 값을 띄어쓰기 기준으로 나눠서, 배열에 넣는다.
-
         for(int i=0; i <arr_all.length; i++) {
             arr_line = arr_all[i].split(",");
 
@@ -362,7 +375,7 @@ FragmentManager fragmentManager;
             try{
                 url = new URL("http://openapi.tago.go.kr/openapi/service/TrainInfoService/" +
                         "getStrtpntAlocFndTrainInfo?serviceKey=7LT0Q7XeCAuzBmGUO7LmOnrkDGK2s7GZIJQdvdZ30lf7FmnTle%2BQoOqRKpjcohP14rouIrtag9KOoCZe%2BXuNxg%3D%3D&" +
-                        "numOfRows=50" +
+                        "numOfRows=5" +
                         "&pageNo=1&" +
                         "depPlaceId=" + startCode +
                         "&arrPlaceId=" + endCode +
@@ -380,7 +393,7 @@ FragmentManager fragmentManager;
                         buffer.append(str);
                     }
                     receiveMsg = buffer.toString();
-                    Log.i("ㅗㅗㅗㅗㅗㅗ" , receiveMsg);
+
                 } else {
                     Log.i("통신 결과", conn.getResponseCode() + "에러");
                 }
@@ -394,7 +407,7 @@ FragmentManager fragmentManager;
     }
 
 
-    public String[] trianjsonParser(String jsonString){
+    public String[] trianjsonParser(String jsonString, int isMiddle){
         String arrplacename = null;
         String arrplandtime = null;
         String depplacename = null;
@@ -429,16 +442,16 @@ FragmentManager fragmentManager;
 
                 switch (isMiddle) {
                     case 0:
-                        header_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.HEADER, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
+                        header_data.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
                         break;
                     case 1:
-                        child1_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
+                        child1_data.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
                         break;
                     case 2:
-                        child2_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
+                        child2_data.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
                         break;
                     case 3:
-                        child3_data.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(Page3_1_1_1_bottomSheetAdapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
+                        child3_data.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.CHILD, depTime.substring(0,2)+":"+depTime.substring(2), arrTime.substring(0,2)+":"+arrTime.substring(2), "["+depplacename+"]", traingradename));
                         break;
                     default:
                         break;
@@ -460,6 +473,7 @@ FragmentManager fragmentManager;
     public void send(ArrayList<String> data, String date) {
         data_split = data.get(0).split(",");
         this.date = date;
+        int isMiddle = 0;
 
         for (int p = 0; p < data_split.length - 1; p++) {
 
@@ -473,7 +487,7 @@ FragmentManager fragmentManager;
                 trainCode = trainCodelist[i];
                 try {
                     new Task().execute().get();
-                    trianjsonParser(receiveMsg);
+                    trianjsonParser(receiveMsg, isMiddle);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -512,8 +526,8 @@ FragmentManager fragmentManager;
                             String[] child1_time_split = child1_data.get(p).getDepTime().split(":");
                             if (Integer.parseInt(header_time_split[0]) <= Integer.parseInt(child1_time_split[0])
                                     && Integer.parseInt(header_time_split[1]) + 10 < Integer.parseInt(child1_time_split[1])) {
-                                completeList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(
-                                        Page3_1_1_1_bottomSheetAdapter.HEADER,
+                                completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(
+                                        Page3_1_1_1_bottomSheet_Adapter.CHILD,
                                         header_data.get(i).getDepTime() + "\n" + child1_data.get(p).getDepTime(),
                                         header_data.get(i).getArrTime() + "\n" + child1_data.get(p).getArrTime(),
                                         header_data.get(i).getSpendTime() + "\n" + child1_data.get(p).getSpendTime(),
@@ -559,8 +573,8 @@ FragmentManager fragmentManager;
                                         && Integer.parseInt(child1_Arrtime_split[0]) <= Integer.parseInt(child2_time_split[0])
                                         && Integer.parseInt(child1_Arrtime_split[1]) + 10 < Integer.parseInt(child2_time_split[1])) {
 
-                                    completeList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(
-                                            Page3_1_1_1_bottomSheetAdapter.HEADER,
+                                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(
+                                            Page3_1_1_1_bottomSheet_Adapter.CHILD,
                                             header_data.get(i).getDepTime() + "\n" + child1_data.get(p).getDepTime() + "\n" + child2_data.get(t).getDepTime(),
                                             header_data.get(i).getArrTime() + "\n" + child1_data.get(p).getArrTime() + "\n" + child2_data.get(t).getArrTime(),
                                             header_data.get(i).getSpendTime() + "\n" + child1_data.get(p).getSpendTime() + "\n" + child2_data.get(t).getSpendTime(),
@@ -618,8 +632,8 @@ FragmentManager fragmentManager;
                                             && Integer.parseInt(child2_Arrtime_split[0]) <= Integer.parseInt(child3_time_split[0])
                                             && Integer.parseInt(child2_Arrtime_split[1]) + 10 < Integer.parseInt(child3_time_split[1])) {
 
-                                        completeList.add(new Page3_1_1_1_bottomSheetAdapter.Api_Item(
-                                                Page3_1_1_1_bottomSheetAdapter.HEADER,
+                                        completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(
+                                                Page3_1_1_1_bottomSheet_Adapter.CHILD,
                                                 header_data.get(i).getDepTime() + "\n" + child1_data.get(p).getDepTime() + "\n" + child2_data.get(t).getDepTime() + "\n" + child3_data.get(g).getDepTime(),
                                                 header_data.get(i).getArrTime() + "\n" + child1_data.get(p).getArrTime() + "\n" + child2_data.get(t).getArrTime() + "\n" + child3_data.get(g).getArrTime(),
                                                 header_data.get(i).getSpendTime() + "\n" + child1_data.get(p).getSpendTime() + "\n" + child2_data.get(t).getSpendTime() + "\n" + child3_data.get(g).getSpendTime(),

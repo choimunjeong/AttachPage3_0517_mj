@@ -15,11 +15,13 @@ import java.util.List;
 public class Page3_1_1_1_bottomSheet_Adapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> list;
+    private ArrayList<Api_Item> list;
     private LayoutInflater inflate;
     private ViewHolder viewHolder;
+    public static final int HEADER = 0;
+    public static final int CHILD = 1;
 
-    public Page3_1_1_1_bottomSheet_Adapter(ArrayList<Page3_1_1_1_bottomSheetAdapter.Api_Item> list, Context context){
+    public Page3_1_1_1_bottomSheet_Adapter(ArrayList<Api_Item> list, Context context){
         this.list = list;
         this.context = context;
         this.inflate = LayoutInflater.from(context);
@@ -70,5 +72,40 @@ public class Page3_1_1_1_bottomSheet_Adapter extends BaseAdapter {
         TextView arrTime ;
         TextView startCityNAme ;
         TextView trainNumber ;
+    }
+
+    //아이템 변수 선언
+    public static class Api_Item implements Comparable<Api_Item>{
+        int type;
+        String depTime;
+        String arrTime;
+        String spendTime;
+        String trainNumber;
+
+        public Api_Item(int type, String dep, String arr, String spend, String train){
+            this.type = type;
+            this.depTime = dep;
+            this.arrTime = arr;
+            this.spendTime = spend;
+            this.trainNumber= train;
+        }
+
+        String getDepTime() {
+            return this.depTime;
+        }
+        String getArrTime() {
+            return this.arrTime;
+        }
+        String getSpendTime() {
+            return this.spendTime;
+        }
+        String getTrainNumber() {
+            return this.trainNumber;
+        }
+
+        @Override
+        public int compareTo(Api_Item o) {
+            return this.depTime.compareTo(o.depTime);
+        }
     }
 }
