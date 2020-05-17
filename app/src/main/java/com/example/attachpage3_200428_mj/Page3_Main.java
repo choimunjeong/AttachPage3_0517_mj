@@ -313,6 +313,7 @@ public class Page3_Main extends AppCompatActivity  {
         });
 
 
+
         //자바스크립트에서 메시지를 받을 수 있게 함 + 글자 비교해서 이미지 나오도록
         page3_svg.addJavascriptInterface(new Object(){
             @JavascriptInterface

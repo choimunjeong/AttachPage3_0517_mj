@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.attachpage3_200428_mj"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -31,4 +31,14 @@ dependencies {
     implementation project(':androidtagview')
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
+
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    /*TabLayout을 쓰기 위한 implementation*/
+    implementation "com.google.android.material:material:1.1.0-beta01"
+
+
+    /*URL에서 이미지를 받기 위한 Glide*/
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 }

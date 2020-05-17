@@ -38,6 +38,7 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
     Page3_1_1_Main page3_1_1_main;
     RecyclerView recyclerView;
 
+
     private ArrayList<Page3_1_1_dargData> list = new ArrayList<>();
     Page3_1_1_adapter adapter = new Page3_1_1_adapter(list);
     String result;
@@ -151,8 +152,10 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
                 intent.putExtra("list", (Serializable) send_list);
                 intent.putExtra("date", date);  //날짜
                 intent.putExtra("dayPass", dayPass);
+                intent.putExtra("reRvise_done", "reRvise_done");
+                overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
                 intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
-                intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
+
                 startActivity(intent);
             }
         });
@@ -322,4 +325,7 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
             getdata_list.add(name[i]);
         }
     }
+
+
+
 }

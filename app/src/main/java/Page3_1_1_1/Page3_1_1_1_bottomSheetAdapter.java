@@ -17,13 +17,15 @@ import java.util.ArrayList;
 public class Page3_1_1_1_bottomSheetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Api_Item> mData = null;
+    onSetList onSetList;
 
     //헤더인지 아이템인지 확인하는데 필요함
     public static final int HEADER = 0;
     public static final int CHILD = 1;
 
 
-    Page3_1_1_1_bottomSheetAdapter(ArrayList<Api_Item> list) {
+    Page3_1_1_1_bottomSheetAdapter(ArrayList<Api_Item> list, onSetList onSetList) {
+        this.onSetList = onSetList;
         this.mData = list;
     }
 
@@ -34,14 +36,12 @@ public class Page3_1_1_1_bottomSheetAdapter extends RecyclerView.Adapter<Recycle
         Context context = parent.getContext();
         switch (viewType) {
             case HEADER:
-                Log.i("아니 왜 얘가 나와?", Integer.toString(viewType));
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view = inflater.inflate(R.layout.page3_1_1_1_apisheet_header, parent, false);
                 Page3_1_1_1_bottomSheetAdapter.HeaderViewHolder headerViewHolder = new Page3_1_1_1_bottomSheetAdapter.HeaderViewHolder(view);
                 return headerViewHolder;
 
             case CHILD:
-                Log.i("아니 잘 나오는데 왜그래?", Integer.toString(viewType));
                 LayoutInflater inflater2 = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 View view2 = inflater2.inflate(R.layout.page3_1_1_1_apisheet_child,parent,false);
                 Page3_1_1_1_bottomSheetAdapter.ItemViewHolder itemViewHolder = new Page3_1_1_1_bottomSheetAdapter.ItemViewHolder(view2);
@@ -59,8 +59,14 @@ public class Page3_1_1_1_bottomSheetAdapter extends RecyclerView.Adapter<Recycle
             final Page3_1_1_1_bottomSheetAdapter.HeaderViewHolder headerViewHolder = (Page3_1_1_1_bottomSheetAdapter.HeaderViewHolder) holder;
             headerViewHolder.depTime.setText(item.depTime);
             headerViewHolder.arrTime.setText(item.arrTime);
-            headerViewHolder.spendTime.setText(item.spendTime);
+            headerViewHolder.startCityNAme.setText(item.spendTime);
             headerViewHolder.trainNumber.setText(item.trainNumber);
+            headerViewHolder.depTime.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onSetList.onsetlist(item.getDepTime());
+                }
+            });
 
         } else if (itemViewType == CHILD) {
             final Page3_1_1_1_bottomSheetAdapter.ItemViewHolder itemViewHolder = (Page3_1_1_1_bottomSheetAdapter.ItemViewHolder) holder;
@@ -90,14 +96,14 @@ public class Page3_1_1_1_bottomSheetAdapter extends RecyclerView.Adapter<Recycle
     public class  HeaderViewHolder extends RecyclerView.ViewHolder {
         TextView depTime ;
         TextView arrTime ;
-        TextView spendTime ;
+        TextView startCityNAme ;
         TextView trainNumber ;
 
         HeaderViewHolder(View itemView) {
             super(itemView) ;
             depTime = itemView.findViewById(R.id.api_dep) ;
             arrTime = itemView.findViewById(R.id.api_arr) ;
-            spendTime = itemView.findViewById(R.id.api_spendtime) ;
+            startCityNAme = itemView.findViewById(R.id.api_startCity) ;
             trainNumber = itemView.findViewById(R.id.api_trainNumber) ;
         }
     }
@@ -155,4 +161,9 @@ public class Page3_1_1_1_bottomSheetAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
+
+    //인터페이스 구현-바텀시트 아이템 선택하면 리사이클러뷰에 넣어주기 위함
+    public interface onSetList {
+        void onsetlist(String text);
+    }
 }

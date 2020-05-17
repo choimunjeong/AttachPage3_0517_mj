@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,10 +25,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import DB.Heart_page;
 import Page3_1.Page3_1_Main;
 import Page3_1_1.Page3_1_1_addConformDialog;
+import Page3_1_1.Page3_1_1_dargData;
 
-public  class Page3_1_1_1_Main extends AppCompatActivity {
+public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_addCityBottomSheet.onSetList {
     TextView addSpot;
     String date= null, dayPass = null;
     ArrayList<String> next_data;
@@ -137,7 +140,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // 리사이클러뷰에 Adapter 객체 지정.
-        adapter = new Page3_1_1_1_trainAdapter(list);
+        adapter = new Page3_1_1_1_trainAdapter(list, getSupportFragmentManager());
         recyclerView.setAdapter(adapter);
 
         // 드래그 이벤트
@@ -151,12 +154,43 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         addSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(getApplicationContext(), "버튼 눌림", Toast.LENGTH_SHORT).show();
-//                AddSpotBottomSheetDialog addSpotBottomSheetDialog = AddSpotBottomSheetDialog.getInstance();
-//                addSpotBottomSheetDialog.show(getSupportFragmentManager(), "BottomSheet");
+                Page3_1_1_1_addCityBottomSheet addCityBottomSheet = Page3_1_1_1_addCityBottomSheet.getInstance();
+                addCityBottomSheet.show(getSupportFragmentManager(), "AddCityBottomSheet");
             }
         });
 
+        Button reset_btn = (Button)findViewById(R.id.page3_1_1_1_1_reset_btn);
+        reset_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    public void onsetlist(String text, String cityname) {
+        boolean isAdd = false;
+
+        //도시 아래에 넣기 위함
+        for(int i =0; i < list.size(); i++){
+            if(list.get(i).type == Page3_1_1_1_trainAdapter.CHILD){
+                String text_split[] = list.get(i).text.split("-");
+
+                //불필요한 공백 제거
+                String station = text_split[1].trim();
+
+                if(station.contains(cityname)){
+                    list.add(i+1, new RecycleItem(Page3_1_1_1_trainAdapter.CITY, "",text,  "0"));
+                    adapter.notifyDataSetChanged();
+                    isAdd = true;
+                    break;
+                }
+            }
+        }
+
+        if(!isAdd)
+            Toast.makeText(getApplicationContext(), "해당되는 정차역이 없습니다.", Toast.LENGTH_LONG).show();
     }
 
 
@@ -192,6 +226,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity {
         list.clear();
         getitem.clear();
     }
+
 
 
 }

@@ -37,11 +37,14 @@
         android:gravity="center"/>
 
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/api_list"
-    android:layout_below="@+id/recyclerView_line"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="16dp"/>
+    <ListView
+        android:id="@+id/api_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/recyclerView_line"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"
+        android:paddingBottom="50dp"
+        android:layout_marginTop="29dp"/>
 
 </RelativeLayout>

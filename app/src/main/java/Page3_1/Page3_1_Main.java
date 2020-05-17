@@ -627,6 +627,7 @@ public class Page3_1_Main extends AppCompatActivity {
         return middle + "\n" + middle2;
     }
 
+
     //이 클래스는 어댑터와 서로 주고받으며 쓰는 클래스임
     public static class item_data  {
         String number;

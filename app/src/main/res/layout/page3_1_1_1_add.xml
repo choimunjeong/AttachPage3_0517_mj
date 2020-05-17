@@ -4,31 +4,39 @@
     android:foreground="?selectableItemBackground"
     android:background="@drawable/box_round"
     android:layout_width="match_parent"
-    android:layout_height="63dp"
-    android:padding="16dp">
+    android:layout_height="63dp">
 
 
     //추가버튼
     <Button
-        android:id="@+id/page3_1_1_1_1_addbtn"
+        android:id="@+id/page3_1_1_1_1_addbtn1"
         android:layout_width="22dp"
         android:layout_height="22dp"
+        android:layout_marginLeft="17dp"
         android:layout_centerVertical="true"
         android:text="+"
         android:background="@drawable/circle_add"
         android:textColor="#ffffff"
-        android:textSize="16dp"
-        android:gravity="center_horizontal" />
+        android:textSize="16dp" />
 
     //도시 추가하기 텍스트
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/page3_1_1_1_1_addbtn"
+        android:layout_toRightOf="@+id/page3_1_1_1_1_addbtn1"
         android:layout_marginLeft="16dp"
+        android:layout_centerVertical="true"
         android:text="관광지 추가하기"
         android:textColor="#000000"
         android:textSize="18sp"
         android:fontFamily="@font/notosans_medium" />
+
+    //버튼 터치 영역 확장
+    <Button
+        android:id="@+id/page3_1_1_1_1_addbtn"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:background="#00000000"/>
 
 </RelativeLayout>

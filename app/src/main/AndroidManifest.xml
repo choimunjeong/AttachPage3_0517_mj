@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Page3_Main"
+        <activity android:name="text.MainActivity"
             android:windowSoftInputMode="adjustResize|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,9 +24,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com_page2_1.Page2_1_MainActivity"/>
+        <activity android:name=".Page3_Main"/>
         <activity android:name="Page3_1.Page3_1_Main"/>
         <activity android:name="Page3_1_1.Page3_1_1_Main"/>
         <activity android:name="Page3_1_1_1.Page3_1_1_1_Main"/>
+        <activity android:name="DB.Heart_page"/>
     </application>
 
 </manifest>

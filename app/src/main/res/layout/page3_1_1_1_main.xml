@@ -18,7 +18,8 @@
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"/>
 
             //가운데 로고 이미지
             <TextView
@@ -35,7 +36,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"/>
 
             // 여행일정입력 타이틀
             <TextView

@@ -132,6 +132,7 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
         notifyItemChanged(oldPosition);
         notifyItemChanged(newPosition);
         //notifyItemRangeChanged(0, mDataset.size());
+
     }
 
 
