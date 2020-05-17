@@ -477,7 +477,6 @@ public class Page3_1_1_1_bottomSheet extends BottomSheetDialog implements Page3_
                 endCode = _code[i];
             }
         }
-        //Log.i("receiveMsg : ", startCode+"-"+ endCode);
     }
 
 
