@@ -38,9 +38,11 @@ public class DbOpenHelper {
         }
     }
 
+
     public DbOpenHelper(Context context){
         this.mCtx = context;
     }
+
 
     public DbOpenHelper open() throws SQLException {
         mDBHelper = new DatabaseHelper(mCtx, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,13 +50,16 @@ public class DbOpenHelper {
         return this;
     }
 
+
     public void create(){
         mDBHelper.onCreate(mDB);
     }
 
+
     public void close(){
         mDB.close();
     }
+
 
     // Insert DB
     public long insertColumn(String userid, String name, String city){
@@ -65,6 +70,7 @@ public class DbOpenHelper {
         return mDB.insert(DataBases.CreateDB._TABLENAME0, null, values);
     }
 
+
     // Update DB
     public boolean updateColumn(long id, String userid, String name, String cityname){
         ContentValues values = new ContentValues();
@@ -74,24 +80,30 @@ public class DbOpenHelper {
         return mDB.update(DataBases.CreateDB._TABLENAME0, values, "_id=" + id, null) > 0;
     }
 
+
     // Delete All
     public void deleteAllColumns() {
         mDB.delete(DataBases.CreateDB._TABLENAME0, null, null);
     }
+
 
     // Delete DB
     public boolean deleteColumn(long id){
         return mDB.delete(DataBases.CreateDB._TABLENAME0, "_id="+id, null) > 0;
     }
 
+
     // Delete DB
     public boolean deleteColumnByContentID(String contentId){
         return mDB.delete(DataBases.CreateDB._TABLENAME0, "userid="+contentId, null) > 0;
     }
+
+
     // Select DB
     public Cursor selectColumns(){
         return mDB.query(DataBases.CreateDB._TABLENAME0, null, null, null, null, null, null);
     }
+
 
     // sort by column
     public Cursor sortColumn(String sort){

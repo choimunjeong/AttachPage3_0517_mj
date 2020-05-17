@@ -31,30 +31,10 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
     Context context;
 
 
-
-    //content 뷰 홀더
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView name, number;
-        public Button delete, add;
-        public RelativeLayout dragline;
-        public ImageView circle;
-
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.page3_1_1_name);
-            number = (TextView) itemView.findViewById(R.id.page3_1_1_number);
-            delete = (Button) itemView.findViewById(R.id.page3_1_1_delete_btn);
-            add = (Button) itemView.findViewById(R.id.page3_1_1_listAdd);
-            dragline = (RelativeLayout) itemView.findViewById(R.id.page3_1_1_dragLine);
-            circle = (ImageView) itemView.findViewById(R.id.page3_1_1_circle);
-        }
-    }
-
     public Page3_1_1_adapter(ArrayList<Page3_1_1_dargData> myData){
         this.mDataset = myData;
-
     }
+
 
     @NonNull
     @Override
@@ -63,6 +43,7 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page3_1_1_item, parent,false);
             return new MyViewHolder(view);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
@@ -132,11 +113,30 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
         notifyItemChanged(oldPosition);
         notifyItemChanged(newPosition);
         //notifyItemRangeChanged(0, mDataset.size());
-
     }
 
 
     public void setTouchHelper(ItemTouchHelper touchHelper) {
         this.touchHelper = touchHelper;
+    }
+
+
+    //content 뷰 홀더
+    public class MyViewHolder extends RecyclerView.ViewHolder{
+        public TextView name, number;
+        public Button delete, add;
+        public RelativeLayout dragline;
+        public ImageView circle;
+
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.page3_1_1_name);
+            number = (TextView) itemView.findViewById(R.id.page3_1_1_number);
+            delete = (Button) itemView.findViewById(R.id.page3_1_1_delete_btn);
+            add = (Button) itemView.findViewById(R.id.page3_1_1_listAdd);
+            dragline = (RelativeLayout) itemView.findViewById(R.id.page3_1_1_dragLine);
+            circle = (ImageView) itemView.findViewById(R.id.page3_1_1_circle);
+        }
     }
 }

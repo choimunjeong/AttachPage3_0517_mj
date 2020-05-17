@@ -1,12 +1,8 @@
 package Page3_1_1_1;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.database.Cursor;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,39 +10,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.example.attachpage3_200428_mj.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.List;
-
 import DB.DbOpenHelper;
-import Page3_1_1.Page3_1_1_Main;
-import Page3_1_1.Page3_1_1_addBottomAdapter;
 
 public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
     Page3_1_1_1_Main page3_1_1_1_main;
 
-    private ListView listView;          // 검색을 보여줄 리스트변수
-    private Page3_1_1_1_addCityBottomAdapter adapter;      // 리스트뷰에 연결할 아답터
-    private onSetList listener;             //page3_1_1에 값을 전달하기 위한
+    private ListView listView;
+    private Page3_1_1_1_addCityBottomAdapter adapter;
+    private onSetList listener;
 
     //데이터베이스 관련
-    long nowIndex;
     String sort = "userid";
-    ArrayAdapter<String> arrayAdapter;
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
     static ArrayList<String> arrayCityName = new ArrayList<String>();
@@ -66,8 +46,7 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
         if(context instanceof onSetList){
             listener = (onSetList) context;
         } else {
-            throw new RuntimeException(context.toString()
-            + "야 오류났다.");
+            throw new RuntimeException(context.toString() + " 오류났다.");
         }
     }
 
@@ -75,14 +54,15 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         final ViewGroup rootview = (ViewGroup)inflater.inflate(R.layout.page3_1_1_1_addcity, container, false);
 
+        //리스트뷰 + 어댑터 연결
         adapter = new Page3_1_1_1_addCityBottomAdapter(arrayData, page3_1_1_1_main);
         listView = (ListView) rootview.findViewById(R.id.api_list_city);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(onClickListener);
 
+        //데베 연결
         mDbOpenHelper = new DbOpenHelper(page3_1_1_1_main);
         mDbOpenHelper.open();
         mDbOpenHelper.create();
@@ -114,12 +94,11 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
             }
         });
 
-
         return rootview;
     }
 
 
-    //바텀시트에서 관광지를 선택하면
+    //바텀시트에서 선택하면
     private AdapterView.OnItemClickListener onClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -129,8 +108,6 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
                  dismiss();
             }
         };
-
-
 
 
     //데이터베이스 가져오는 부분

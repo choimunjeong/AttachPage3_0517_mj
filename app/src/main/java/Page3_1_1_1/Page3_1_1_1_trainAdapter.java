@@ -51,12 +51,12 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     //헤더바 위치가 0이면 true로 바뀌고 1일차로 움직일 수 없게 만듦
     boolean firstdone = false;
 
-    //헤더인지 아이템인지 확인하는데 필요함
+    //헤더인지 아이템인지 확인하는데 필요함/ HEADER:n일차 바 / CHILD:기차시간표 / CITY:관광지 부분
     public static final int HEADER = 0;
     public static final int CHILD = 1;
     public static final int CITY =2;
 
-    //바텀시트 관련
+    //바텀시트 관련(맨 아래 함수)
     FragmentManager fragmentManager;
     String receiveMsg;
     String [] data_split;
@@ -260,6 +260,15 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                     settingList(context);
                     send(data, date);
 
+
+                    //api 트래픽 다 써서 임의값 넣어놓음
+                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, "01:43", "03:22", "d", "무궁화"));
+                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, "01:43", "03:22", "d", "무궁화"));
+                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, "01:43", "03:22", "d", "무궁화"));
+                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, "01:43", "03:22", "d", "무궁화"));
+                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, "01:43", "03:22", "d", "무궁화"));
+                    completeList.add(new Page3_1_1_1_bottomSheet_Adapter.Api_Item(Page3_1_1_1_bottomSheet_Adapter.HEADER, "01:43", "03:22", "d", "무궁화"));
+
                     //바텀시트 어댑터 연결
                     Page3_1_1_1_bottomSheet_Adapter adapter = new Page3_1_1_1_bottomSheet_Adapter(completeList, context);
                     listView.setAdapter(adapter);
@@ -320,6 +329,8 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
 
+
+
     /*
     *바텀시트 관련 함수
     *****************************************************************************************
@@ -366,6 +377,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
 
+    //api 연결
     public  class  Task extends AsyncTask<String, Void, String> {
         private String str;
 
@@ -407,6 +419,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
 
+    //api 값을 정제
     public String[] trianjsonParser(String jsonString, int isMiddle){
         String arrplacename = null;
         String arrplandtime = null;
@@ -469,7 +482,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     }
 
 
-
+    //리스트에 넣을 값을 구성(환승작업)
     public void send(ArrayList<String> data, String date) {
         data_split = data.get(0).split(",");
         this.date = date;

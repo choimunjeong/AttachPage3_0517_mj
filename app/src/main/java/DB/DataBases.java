@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 
 public final class DataBases {
 
+    //데이터베이스 테이블 구성
     public static final class CreateDB implements BaseColumns {
         public static final String USERID = "userid";
         public static final String NAME = "name";

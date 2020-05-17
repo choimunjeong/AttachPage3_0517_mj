@@ -32,15 +32,20 @@ import Page3_1_1.Page3_1_1_dargData;
 
 public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_addCityBottomSheet.onSetList {
     TextView addSpot;
+    String split_1 [];
     String date= null, dayPass = null;
+    String day1_date, day2_date, day3_date, day4_date, day5_date, day6_date, day7_date;
+
+    //리사이클러뷰 관련
     ArrayList<String> next_data;
     ArrayList<String> next_data_second;
-    String split_1 [];
-    private ArrayList<Page3_1_1_1_dargData> getitem = new ArrayList<>();
+    ArrayList<Page3_1_1_1_dargData> getitem = new ArrayList<>();
+    ArrayList<RecycleItem> list = new ArrayList<>();
+
+    //어댑터 관련
     LayoutInflater inflater;
     Page3_1_1_1_trainAdapter adapter;
-    ArrayList<RecycleItem> list = new ArrayList<>();
-    String day1_date, day2_date, day3_date, day4_date, day5_date, day6_date, day7_date;
+
 
 
     @Override
@@ -48,11 +53,13 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page3_1_1_1_main);
 
+        //값을 받아옴
         Intent intent = getIntent();
         next_data = (ArrayList<String>) intent.getSerializableExtra("next_data");
         next_data_second = (ArrayList<String>) intent.getSerializableExtra("next_data");
         date = (intent.getExtras().getString("date")).replaceAll("[^0-9]", "");
         dayPass = intent.getExtras().getString("dayPass");
+
 
         //날짜를 더할때 실제 날짜 반영해서 더해야함
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -64,7 +71,6 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date_format);
-
         day1_date = date;
         calendar.add(Calendar.DATE, 1);
         day2_date = dateFormat.format(calendar.getTime());
@@ -72,14 +78,14 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
         day3_date = dateFormat.format(calendar.getTime());
 
 
-
-
+        //앞에서 전달한 값을 쪼갬
         for(int i =0; i < next_data.size(); i++){
             split_1 = next_data.get(i).split(",");
             getitem.add(new Page3_1_1_1_dargData(split_1[0], split_1[1]));
         }
 
 
+        //리사이클러뷰 리스트에 추가
         list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "1일차", day1_date));
 
         //환승인지 아닌지 걸러내는 작업
@@ -97,8 +103,10 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
                 }
             }
         }
+
         list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","2일차",  day2_date));
         list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","3일차",  day3_date));
+
 
         //5일차면
         if(dayPass.contains("5")){
@@ -111,6 +119,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date));
             list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date));
         }
+
 
         //7일차면
         else if(dayPass.contains("7")){
@@ -130,18 +139,22 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "7일차", day7_date ));
         }
 
+
         // 레이아웃 안에 레이아웃 만들기
         LinearLayout contentsLayout = (LinearLayout) findViewById(R.id.page3_1_1_box_round);
         inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.page3_1_1_1_recyclerview, contentsLayout, true);
 
+
         // 리사이클러뷰에 LinearLayoutManager 객체 지정.
         RecyclerView recyclerView = findViewById(R.id.scheduleRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         // 리사이클러뷰에 Adapter 객체 지정.
         adapter = new Page3_1_1_1_trainAdapter(list, getSupportFragmentManager());
         recyclerView.setAdapter(adapter);
+
 
         // 드래그 이벤트
         ItemTouchHelper.Callback callback = new TrainItemTouchHelper(adapter);
@@ -149,7 +162,8 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
         touchHelper.attachToRecyclerView(recyclerView);
         adapter.setTouchHelper(touchHelper);
 
-        // 관광지 추가하기 버튼 눌렀을 때
+
+        // 관광지 추가하기 버튼 누르면
         addSpot = (TextView) findViewById(R.id.page3_1_1_1_1_addbtn);
         addSpot.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +173,8 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             }
         });
 
+
+        //초기화 버튼 누르면
         Button reset_btn = (Button)findViewById(R.id.page3_1_1_1_1_reset_btn);
         reset_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,13 +182,16 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
                 onBackPressed();
             }
         });
+
     }
 
+
+    //관심 관광지 추가 인터페이스
     @Override
     public void onsetlist(String text, String cityname) {
         boolean isAdd = false;
 
-        //도시 아래에 넣기 위함
+        //해당되는 도시 아래에 넣기 위함
         for(int i =0; i < list.size(); i++){
             if(list.get(i).type == Page3_1_1_1_trainAdapter.CHILD){
                 String text_split[] = list.get(i).text.split("-");
@@ -189,6 +208,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             }
         }
 
+        //해당되는 도시가 없으면
         if(!isAdd)
             Toast.makeText(getApplicationContext(), "해당되는 정차역이 없습니다.", Toast.LENGTH_LONG).show();
     }
@@ -214,12 +234,15 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
     }
 
 
+    //뒤로가기 화면 전환 없앰
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
     }
 
+
+    //액티비티 닫히면 리스트 초기화
     @Override
     protected void onPause() {
         super.onPause();

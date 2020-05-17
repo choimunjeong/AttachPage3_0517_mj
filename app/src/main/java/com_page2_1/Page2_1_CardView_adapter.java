@@ -1,5 +1,6 @@
 package com_page2_1;
 
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,12 +27,13 @@ import java.util.List;
 public class Page2_1_CardView_adapter extends RecyclerView.Adapter<Page2_1_CardView_adapter.ViewHolder> {
 
     private Page2_1_MainActivity mainActivity;
-    private String[] stay = new String[5];  // 하트의 클릭 여부
     private List<Page2_1_Fragment.Recycler_item> items;  //리사이클러뷰 안에 들어갈 값 저장
+    private String[] stay = new String[5];               // 하트의 클릭 여부
     OnItemClick mCallback;
     String cityName;
 
-    //메인에서 불러올 때, 이 함수를 씀
+
+    //부모 액티비티와 연결
     public Page2_1_CardView_adapter(List<Page2_1_Fragment.Recycler_item> items, Page2_1_MainActivity mainActivity, String cityName,  OnItemClick mCallback) {
         this.items=items;
         this.mainActivity = mainActivity;
@@ -39,14 +42,12 @@ public class Page2_1_CardView_adapter extends RecyclerView.Adapter<Page2_1_CardV
     }
 
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_page2,null);
         return new ViewHolder(v);
     }
-
 
 
     @Override
@@ -59,31 +60,33 @@ public class Page2_1_CardView_adapter extends RecyclerView.Adapter<Page2_1_CardV
             //이미지뷰에 url 이미지 넣기.
             RequestOptions requestOptions = new RequestOptions();
             requestOptions = requestOptions.transforms(new CenterCrop(), new RoundedCorners(16));
-            Glide.with(mainActivity).load(item.getImage())
-                    .apply(requestOptions).into(holder.image);
+            Glide.with(mainActivity).load(item.getImage()).apply(requestOptions).into(holder.image);
         }
 
         holder.title.setText(item.getTitle());
         holder.type.setText(item.getType());
 
 
-        //하트누르면 내부 데이터에 저장
+        //하트누르면
         holder.heart.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onClick(View v) {
+
+                //하트 누른적이 없으면 데베에 저장
                 if(stay[position]==null){
                     holder.heart.setBackgroundResource(R.drawable.ic_heart_off);
-                    mCallback.make_db(item.getContentviewID(), item.getTitle(), cityName);   //countId랑 title을 db에 넣으려고 함( make_db라는 인터페이스 이용)
-                    mCallback.make_dialog();                                       //db에 잘 넣으면 띄우는 다이얼로그(위와 마찬가지로 인터페이스 이용
+                    mCallback.make_db(item.getContentviewID(), item.getTitle(), cityName);
+                    mCallback.make_dialog();
                     stay[position] = "ON";
-                   // Toast.makeText(context,"관심관광지를 눌렀습니다",Toast.LENGTH_SHORT).show();
+                }
 
-                } else{
+                //하트 누른적이 있으면 데베에서 삭제
+                else{
                     holder.heart.setBackgroundResource(R.drawable.ic_icon_addmy);
                     mCallback.delete_db(item.getContentviewID());
                     stay[position] = null;
-                   // Toast.makeText(context,"관심관광지를 취소했습니다",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mainActivity,"관심관광지를 취소했습니다",Toast.LENGTH_SHORT).show();
                 }
             }
         });

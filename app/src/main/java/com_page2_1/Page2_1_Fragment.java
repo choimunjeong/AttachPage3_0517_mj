@@ -53,9 +53,9 @@ public class Page2_1_Fragment extends Fragment implements OnItemClick {
     String Url_front = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=";
 
 
-    String name_1[];  //returnResult를 줄바꿈 단위로 쪼개서 넣은 배열/ name_1[0]에는 한 관광지의 이름,url,contentId,위치가 다 들어가 있다.
+    String name_1[];                  //returnResult를 줄바꿈 단위로 쪼개서 넣은 배열/ name_1[0]에는 한 관광지의 이름,url,contentId,위치가 다 들어가 있다.
     String name_2[] = new String[3];  //name_1를 "  " 단위로 쪼개서 넣은 배열/ [0]= contentID/ [1]=mapx/ [2]에= mapy/ [3]= img_Url/ [4]= name이 들어가 있다.
-//    int length = name_1.length;
+
 
 
     //xml 파싱한 값을 분류해서 쪼개 넣음

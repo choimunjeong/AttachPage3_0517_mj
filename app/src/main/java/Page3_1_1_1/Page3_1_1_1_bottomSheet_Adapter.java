@@ -18,8 +18,10 @@ public class Page3_1_1_1_bottomSheet_Adapter extends BaseAdapter {
     private ArrayList<Api_Item> list;
     private LayoutInflater inflate;
     private ViewHolder viewHolder;
+
     public static final int HEADER = 0;
     public static final int CHILD = 1;
+
 
     public Page3_1_1_1_bottomSheet_Adapter(ArrayList<Api_Item> list, Context context){
         this.list = list;
@@ -46,14 +48,13 @@ public class Page3_1_1_1_bottomSheet_Adapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
             convertView = inflate.inflate(R.layout.page3_1_1_1_apisheet_header, null);
-
             viewHolder = new ViewHolder();
             viewHolder.depTime = convertView.findViewById(R.id.api_dep) ;
             viewHolder.arrTime = convertView.findViewById(R.id.api_arr) ;
             viewHolder.startCityNAme = convertView.findViewById(R.id.api_startCity) ;
             viewHolder.trainNumber = convertView.findViewById(R.id.api_trainNumber) ;
-
             convertView.setTag(viewHolder);
+
         } else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
@@ -73,6 +74,7 @@ public class Page3_1_1_1_bottomSheet_Adapter extends BaseAdapter {
         TextView startCityNAme ;
         TextView trainNumber ;
     }
+
 
     //아이템 변수 선언
     public static class Api_Item implements Comparable<Api_Item>{

@@ -56,6 +56,8 @@ public class Page3_Main extends AppCompatActivity  {
     private TagContainerLayout mTagContainerLayout1;
     boolean startOk = false;
     boolean endOk = false;
+    boolean middleOk = false;
+    boolean dateOk = false;
 
     //svg 지도
     WebView page3_svg;
@@ -80,7 +82,6 @@ public class Page3_Main extends AppCompatActivity  {
     String[] code_name = null;
     String[] code = new String[237];
     String[] name = new String[237];
-    String next_text[] = new String[10];  //다음 페이지에 넘길 값 배열
 
 
     //날짜 값을 받아온다.
@@ -94,12 +95,9 @@ public class Page3_Main extends AppCompatActivity  {
         }
     };
 
-    //자동완성 변수
-    AutoCompleteTextView searchStation_page3;
 
     //다음 페이지로 값을 전달할 list
     ArrayList <send_data> send_list = new ArrayList<send_data>();
-
 
 
     @Override
@@ -120,6 +118,7 @@ public class Page3_Main extends AppCompatActivity  {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.dayPass_3:
+                        dateOk = true;
                         dayPass = "3일권";
                         dayPass_3.setSelected(true);
                         dayPass_5.setSelected(false);
@@ -127,6 +126,7 @@ public class Page3_Main extends AppCompatActivity  {
                         dayPass_3.setTextColor(getResources().getColorStateList(R.color.btn_ticket_text));
                         break;
                     case R.id.dayPass_5:
+                        dateOk = true;
                         dayPass = "5일권";
                         dayPass_5.setSelected(true);
                         dayPass_3.setSelected(false);
@@ -134,6 +134,7 @@ public class Page3_Main extends AppCompatActivity  {
                         dayPass_5.setTextColor(getResources().getColorStateList(R.color.btn_ticket_text));
                         break;
                     case R.id.dayPass_7:
+                        dateOk = true;
                         dayPass = "7일권";
                         dayPass_7.setSelected(true);
                         dayPass_3.setSelected(false);
@@ -155,6 +156,7 @@ public class Page3_Main extends AppCompatActivity  {
         time = sdf.format(myCalendar.getTime());
         editDate.setText(time);
 
+
         // 출발 날짜 클릭 시 DatePicker 보여주기
         editDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +167,7 @@ public class Page3_Main extends AppCompatActivity  {
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
+
 
         //자동완성-검색 리스트 구현 부분
         list = new ArrayList<String>();            //리스트를 생성
@@ -192,22 +195,18 @@ public class Page3_Main extends AppCompatActivity  {
         });
 
 
-
         //자동입력에서 항목을 터치했을 때, 키보드가 바로 내려감 + 웹뷰에서 해당역에 출경도 버튼 띄워짐
         autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (autoCompleteTextView.getText().toString() != null) {
                     page3_svg.loadUrl("javascript:setMessage('" + autoCompleteTextView.getText().toString() + "')");
-
                 }
-
                 //키보드 내림
                 InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 mInputMethodManager.hideSoftInputFromWindow(autoCompleteTextView.getWindowToken(), 0);
             }
         });
-
 
 
         // svg 지도
@@ -227,11 +226,13 @@ public class Page3_Main extends AppCompatActivity  {
         });
 
 
-        //지도가 아닌 배경을 눌렀을때 지도의 테두리를 없애줌
+        //지도가 아닌 배경을 눌렀을때 지도의 테두리를 없애줌 + 키보드 내림
         scrollView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 page3_svg_bg.setSelected(false);
+                InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mInputMethodManager.hideSoftInputFromWindow(autoCompleteTextView.getWindowToken(), 0);
                 return false;
             }
         });
@@ -242,15 +243,10 @@ public class Page3_Main extends AppCompatActivity  {
         page3_svg.getSettings().setLoadWithOverviewMode(true);
         page3_svg.getSettings().setDisplayZoomControls(false);  //웹뷰 돋보기 없앰
         page3_svg.getSettings().setUseWideViewPort(true);
-
-
-        //웹뷰 줌기능
-        page3_svg.getSettings().setBuiltInZoomControls(true);
+        page3_svg.getSettings().setBuiltInZoomControls(true);   //웹뷰 줌기능
         page3_svg.getSettings().setSupportZoom(true);
         page3_svg.setWebViewClient(new WebViewClient());
-
-        //스크롤바 안보이게함
-        page3_svg.setHorizontalScrollBarEnabled(false);
+        page3_svg.setHorizontalScrollBarEnabled(false);         //스크롤바 안보이게함
         page3_svg.setVerticalScrollBarEnabled(false);
 
         //웹뷰를 로드함
@@ -272,7 +268,7 @@ public class Page3_Main extends AppCompatActivity  {
         mTagContainerLayout1.setCrossColor(Color.parseColor("#FE9D0D"));         // X<-의 색
         mTagContainerLayout1.setBackgroundColor(Color.parseColor("#FFFFFF"));    //태그뷰 배경 색
         mTagContainerLayout1.setBorderColor(Color.parseColor("#FFFFFF"));        //태그뷰의 모서리를 둥글게
-        //나중에 박스 생기는 거 애니메이션 주자.
+        //박스 생기는 거 나중에  애니메이션 주자.
 
 
         //태그뷰 글꼴
@@ -280,12 +276,9 @@ public class Page3_Main extends AppCompatActivity  {
         mTagContainerLayout1.setTagTypeface(typeface);
         mTagContainerLayout1.setTagTextColor(Color.parseColor("#ffffff"));
         mTagContainerLayout1.setTagTextSize(55);
+        mTagContainerLayout1.setTagBdDistance(5f);      //태그 아이템의 밑위 간격
+        mTagContainerLayout1.setTags(list1);            //위에서 커스텀한 태그뷰를 set
 
-        //태그 아이템의 밑위 간격
-        mTagContainerLayout1.setTagBdDistance(5f);
-
-        //위에서 커스텀한 태그뷰를 set
-        mTagContainerLayout1.setTags(list1);
 
         //태그뷰를 선택했을 때, 메소드들
         mTagContainerLayout1.setOnTagClickListener(new TagView.OnTagClickListener() {
@@ -300,21 +293,23 @@ public class Page3_Main extends AppCompatActivity  {
 
             @Override
             public void onTagCrossClick(int position) {                    // X <- 눌러서 지우는 메소드
-
                 if (position < mTagContainerLayout1.getChildCount()) {
+
                     //경유만 삭제할 수 있도록 함
                     if(position != 0 & position != mTagContainerLayout1.size()){
                         mTagContainerLayout1.removeTag(position);
                         page3_svg.loadUrl("javascript:deletePin_middle('"+"2_"+list1.get(position)+"')");   //svg 지도에서 경유 아이콘 삭제
                         list1.remove(position);
+
+                        //경유역이 모두 삭제되면
+                        if(list1.size() == 2) middleOk = false;
                     }
                 }
             }
         });
 
 
-
-        //자바스크립트에서 메시지를 받을 수 있게 함 + 글자 비교해서 이미지 나오도록
+        //지도에서 역 누르면 태그뷰에 추가되는 부분
         page3_svg.addJavascriptInterface(new Object(){
             @JavascriptInterface
             public void send(final String msg) {
@@ -323,7 +318,6 @@ public class Page3_Main extends AppCompatActivity  {
                     public void run(){
 
                         //번호_역이름  <-이렇게 전달되는 걸 '_' 단위로 쪼개서 isStart에 넣는다.
-                        //isStart[0] = 번호, isStart[1] = 역이름
                         String[] isStart = msg.split("_");
 
                         //태그뷰에 아이템이 하나도 없을 때, 출발역이 먼저 선택되어야 한다.
@@ -377,6 +371,7 @@ public class Page3_Main extends AppCompatActivity  {
 
                                 //경유역인 경우에, 출발역과 도착역 사이에 계속 추가가 되어야 한다.
                                 else if (msg.contains("2")) {
+                                    middleOk = true;
 
                                     //도착역이 선택 되어있으면, 도착역을 뒤로 밀어준다.
                                     if(endOk) {
@@ -438,7 +433,9 @@ public class Page3_Main extends AppCompatActivity  {
         send_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(startOk==false || endOk == false){
+
+                //출발, 도착, 경유역이 선택이 안되어 있으면 오류메시지
+                if(startOk==false || endOk == false || middleOk ==false || dateOk == false){
                     err_show();
                 } else {
                     //선택된 역 이름을 번호와 함께 넘겨준다.
@@ -457,30 +454,29 @@ public class Page3_Main extends AppCompatActivity  {
                     intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
                     intent.addFlags(FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
-
                 }
             }
         });
-
     }
 
 
+    //화면이 꺼지면 리스트를 삭제
     @Override
     protected void onPause() {
         super.onPause();
         send_list.clear();
     }
 
+
     //선택된 날짜를 edittext에 적용
     private void updateLabel() {
         String myFormat = String.format("%s%18s%18s", "yyyy년", "MM월  ", "dd일  ");
         sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
-
         EditText editDate = (EditText) findViewById(R.id.page3_date);
         time = sdf.format(myCalendar.getTime());
-
         editDate.setText(time);
     }
+
 
     //경유 추가하는데 자리가 없으면 없다고 다이얼로그 띄움
     void no_Show(){
@@ -495,6 +491,7 @@ public class Page3_Main extends AppCompatActivity  {
         builder.show();
     }
 
+
     //태그뷰의 첫번재의 입력값은 출발역이어야 함
     void startFirst_Show(){
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
@@ -508,6 +505,7 @@ public class Page3_Main extends AppCompatActivity  {
         builder.show();
     }
 
+
     //입력되지 않은 항목이 있으면 다이얼로그 띄움
     void err_show(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -520,8 +518,8 @@ public class Page3_Main extends AppCompatActivity  {
             }
         });
         builder.show();
-
     }
+
 
     //리스트에 검색될 단어를 추가한다. txt파일을 for문으로 쪼개서 넣음
     private void settingList() {
@@ -551,6 +549,7 @@ public class Page3_Main extends AppCompatActivity  {
             list.add(name[i]);
         }
     }
+
 
 }
 

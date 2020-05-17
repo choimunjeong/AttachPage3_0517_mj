@@ -27,7 +27,7 @@ public class Page3_1_1_addConformDialog extends BottomSheetDialogFragment {
     String name, date, dayPass;
 
 
-
+    //Page3_1_1_Main과 연결
     public static Page3_1_1_addConformDialog getInstance(String name, String date, String dayPass){
         Page3_1_1_addConformDialog dialog = new Page3_1_1_addConformDialog();
         Bundle args = new Bundle();
@@ -44,11 +44,11 @@ public class Page3_1_1_addConformDialog extends BottomSheetDialogFragment {
         super.onAttach(context);
         page3_1_1_main = (Page3_1_1_Main) getActivity();
 
+        //인터페이스 연결
         if(context instanceof Page3_1_1_addConformDialog.GoAlgorithPage){
             goAlgorithPage = (Page3_1_1_addConformDialog.GoAlgorithPage) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + "야 오류났다.");
+            throw new RuntimeException(context.toString() + " 오류");
         }
     }
 
@@ -76,14 +76,13 @@ public class Page3_1_1_addConformDialog extends BottomSheetDialogFragment {
             }
         });
 
-
         return rootview;
     }
-
 
 
     //인터페이스 구현
     public interface GoAlgorithPage {
         void go_algorithm_page();
     }
+
 }

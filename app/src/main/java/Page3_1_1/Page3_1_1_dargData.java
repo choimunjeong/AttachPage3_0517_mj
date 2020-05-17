@@ -7,7 +7,6 @@ public class Page3_1_1_dargData  implements Serializable {
     private int number;
 
     public Page3_1_1_dargData(){
-
     }
 
     public Page3_1_1_dargData(String name, int number){

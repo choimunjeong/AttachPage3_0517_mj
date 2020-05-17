@@ -35,18 +35,18 @@ import static android.content.Intent.FLAG_ACTIVITY_NO_HISTORY;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 
 public class Page3_1_Main extends AppCompatActivity {
+
+    //뷰페이져 관련
     ViewPager viewPager;
     Page3_VPAdapter vpAdapter;
     TabLayout tabLayout;
-    Page3_1_fragment1 fragment1;
     ArrayList<send_data> list = new ArrayList<send_data>();
+
+    //이전 액티비티에서 받은 값 관련
     String date, dayPass;
     String isRevise_done = "false";
-
-    //받은 값을 넣을 배열
     String[] text = new String[10];
     int number = 0;
-
 
     //알고리즘
     SubwayController controller;
@@ -66,31 +66,29 @@ public class Page3_1_Main extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page3_1_main);
+
+        //객체 연결
         context = getApplicationContext();
         builder = new SubwayBuilder();
-
-        viewPager=(ViewPager)findViewById(R.id.viewpager);
-        tabLayout=(TabLayout)findViewById(R.id.tablayout);
 
 
         //앞에서 값을 받아온다.(1)
         Intent get = getIntent();
         list = (ArrayList<send_data>)get.getSerializableExtra("list");
-        date = get.getExtras().getString("date");
         number = list.size();
+        date = get.getExtras().getString("date");
         dayPass = get.getExtras().getString("dayPass");
 
 
-        //수정완료 페이지에서 값을 받아온다. (2)
+        //수정완료 페이지에서 값을 받아오면. (2)
         isRevise_done = get.getExtras().getString("reRvise_done");
 
 
-        text[0] = (String) list.get(0).getCode();                              //출발역
-        text[list.size() - 1] = (String) list.get(list.size() - 1).getCode();  //도착역
+        //앞에서 받은 값에서 출발,도착,경유역 정리
+        text[0] = (String) list.get(0).getCode();
+        text[list.size() - 1] = (String) list.get(list.size() - 1).getCode();
+        for (int i = 1; i < list.size() - 1; i++) { text[i] = (String) list.get(i).getCode(); }
 
-        for (int i = 1; i < list.size() - 1; i++) {                            //경유역
-            text[i] = (String) list.get(i).getCode();
-        }
 
         //알고리즘 실행(1) : 최단거리알고리즘
         if(isRevise_done == null){
@@ -104,6 +102,9 @@ public class Page3_1_Main extends AppCompatActivity {
         }
 
 
+        //뷰페이져 연결
+        viewPager=(ViewPager)findViewById(R.id.viewpager);
+        tabLayout=(TabLayout)findViewById(R.id.tablayout);
         vpAdapter = new Page3_VPAdapter(getSupportFragmentManager());
         vpAdapter.getText(result);
         tabLayout.setupWithViewPager(viewPager);
@@ -198,7 +199,6 @@ public class Page3_1_Main extends AppCompatActivity {
             default:
                 break;
         }
-
     }
 
 
@@ -235,11 +235,12 @@ public class Page3_1_Main extends AppCompatActivity {
 
         //줄바꿈 단위로 나눈 것을 개수/출발/시간/도착 으로 쪼갬
         String[] split_result = result.split("\n");
+
         for (int i = 0; i < split_result.length; i++) {
             String[] split_result2 = split_result[i].split(",");
 
             //그냥 지나감
-            if (split_result[i].contains("개수"))
+            if (split_result[i].contains("개수") || split_result[i].contains("시간"))
                 continue;
 
             else if (split_result[i].contains("출발")) {
@@ -249,10 +250,6 @@ public class Page3_1_Main extends AppCompatActivity {
                     checkStart = true;
                 } else
                     result_number.add("경유");
-            }
-
-            else if (split_result[i].contains("시간")) {
-                continue;
             }
 
             else if (split_result[i].contains("도착") && i == split_result.length - 1) {
@@ -266,11 +263,14 @@ public class Page3_1_Main extends AppCompatActivity {
             }
         }
 
+        //리스트에 저장
         for (int i = 0; i < result_name.size(); i++) {
             next_data.add(result_number.get(i)+ "," + result_name.get(i));
         }
     }
 
+
+    /**알고리즘 관련**************************************************************************************************/
 
     //경유지가 1개인 경우
     private String middle_number_1(String station1, String station2, String station3) {
@@ -628,7 +628,7 @@ public class Page3_1_Main extends AppCompatActivity {
     }
 
 
-    //이 클래스는 어댑터와 서로 주고받으며 쓰는 클래스임
+    //arraylist 구성 클래스
     public static class item_data  {
         String number;
         String name;
@@ -654,6 +654,7 @@ public class Page3_1_Main extends AppCompatActivity {
     }
 
 
+    //페이지가 꺼지면 모든 리스트를 초기화
     @Override
     protected void onPause() {
         super.onPause();
@@ -663,6 +664,7 @@ public class Page3_1_Main extends AppCompatActivity {
     }
 
 
+    //뒤로가기 버튼 누를때 생기는 화면전환 효과 없앰
     @Override
     public void onBackPressed() {
         super.onBackPressed();

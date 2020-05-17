@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="63dp">
 
-
     //추가버튼
     <Button
         android:id="@+id/page3_1_1_1_1_addbtn1"
@@ -14,10 +13,10 @@
         android:layout_height="22dp"
         android:layout_marginLeft="17dp"
         android:layout_centerVertical="true"
-        android:text="+"
         android:background="@drawable/circle_add"
-        android:textColor="#ffffff"
-        android:textSize="16dp" />
+        android:text="+"
+        android:textSize="16dp"
+        android:textColor="#ffffff" />
 
     //도시 추가하기 텍스트
     <TextView

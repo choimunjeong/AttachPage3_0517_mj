@@ -30,17 +30,18 @@ import java.util.List;
 
 public class Page3_1_1_addBottomSheet extends BottomSheetDialogFragment {
     Page3_1_1_Main page3_1_1_main;
+    onSetList listener;                             //page3_1_1에 값을 전달하기 위한 인터페이스
 
-    public static final String TAG = "page3_1_1_autoAddCity";
+    private ListView listView;                      // 검색을 보여줄 리스트변수
+    private EditText editSearch;                    // 검색어를 입력할 Input 창
+    private ImageView searchWindow;
 
-    private List<String> datalist;          // 데이터를 넣은 리스트변수
-    private ListView listView;          // 검색을 보여줄 리스트변수
-    private EditText editSearch;        // 검색어를 입력할 Input 창
+    //리스트뷰 관련
     private Page3_1_1_addBottomAdapter adapter;      // 리스트뷰에 연결할 아답터
     private ArrayList<String> arraydatalist;
-    private ImageView searchWindow;
-    private onSetList listener;             //page3_1_1에 값을 전달하기 위한
+    private List<String> datalist;                   // 데이터를 넣은 리스트변수
 
+    //txt 파일 관련
     String readStr = "";
     String[] code_name = null;
     String[] code = new String[238];
@@ -57,11 +58,11 @@ public class Page3_1_1_addBottomSheet extends BottomSheetDialogFragment {
         super.onAttach(context);
         page3_1_1_main = (Page3_1_1_Main) getActivity();
 
+        //인터페이스 연결
         if(context instanceof onSetList){
             listener = (onSetList) context;
         } else {
-            throw new RuntimeException(context.toString()
-            + "야 오류났다.");
+            throw new RuntimeException(context.toString() + "오류");
         }
     }
 
@@ -72,9 +73,8 @@ public class Page3_1_1_addBottomSheet extends BottomSheetDialogFragment {
 
         final ViewGroup rootview = (ViewGroup)inflater.inflate(R.layout.page3_1_1_bottomsheet_list, container, false);
 
-        searchWindow = (ImageView) rootview.findViewById(R.id.page3_1_1_searchwindow);
-
         //자동입력부분 (참고 : https://sharp57dev.tistory.com/11
+        searchWindow = (ImageView) rootview.findViewById(R.id.page3_1_1_searchwindow);
         editSearch = (EditText) rootview.findViewById(R.id.page3_1_1_auto);
         listView = (ListView) rootview.findViewById(R.id.listview);
 
@@ -134,8 +134,6 @@ public class Page3_1_1_addBottomSheet extends BottomSheetDialogFragment {
                         v.getParent().requestDisallowInterceptTouchEvent(false);
                         break;
                 }
-
-                // Handle ListView touch events.
                 v.onTouchEvent(event);
                 return true;
             }
@@ -208,19 +206,15 @@ public class Page3_1_1_addBottomSheet extends BottomSheetDialogFragment {
             String str = null;
             while(((str = reader.readLine()) != null)){ readStr += str +"\n"; }
             reader.close();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] arr = readStr.split("\n");  //한 줄씩 자른다.
 
-        //code,name으로 되어있는 line을 ','를 기준으로 다시 자른다.
+        String[] arr = readStr.split("\n");
         for(int i=0; i<arr.length; i++){
             code_name = arr[i].split(",");
-
             code[i] = code_name[0];
             name[i] = code_name[1];
-
             datalist.add(name[i]);
         }
     }

@@ -19,17 +19,18 @@ import java.util.List;
 public class Page3_1_fragment1 extends Fragment {
     Page3_1_Main page31Main;
 
-    boolean checkStart = false;     //'출발'을 한 번만 넣기 위함
+    //'출발'을 한 번만 넣기 위함
+    boolean checkStart = false;
 
-    //리사이클러뷰에 넣을 리스트
+    //리사이클러뷰 관련
     List<Page3_1_Main.item_data> data_list = new ArrayList<>();
     ArrayList<String> result_name = new ArrayList<String>();
     ArrayList<String> result_number = new ArrayList<String>();
     ArrayList<String> result_time = new ArrayList<String>();
     String time = "";
-
     Page3_1_fragment1_adapter adapter = new Page3_1_fragment1_adapter(data_list);
 
+    //프래그먼트 생성 관련(page3_1_Main에서 돌린 알고리즘 값을 받아옴)
     public Page3_1_fragment1(){ }
     public static Page3_1_fragment1 newInstance(String text){
         Page3_1_fragment1 fragment1 = new Page3_1_fragment1();
@@ -40,7 +41,7 @@ public class Page3_1_fragment1 extends Fragment {
     }
 
 
-    //액티비티와 프래그먼트를 붙일 대 호출되는 메소드,
+    //액티비티와 프래그먼트를 붙일 때 호출되는 메소드,
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -115,7 +116,7 @@ public class Page3_1_fragment1 extends Fragment {
                 }
             }
 
-             //시간을 '약 n시간 n분' 으로 다듬기
+             //시간을 'n시간 n분' 으로 다듬기
             for (int i = 0; i < result_name.size(); i++) {
 
                 if (result_time.get(i).length() > 0) {
@@ -131,12 +132,12 @@ public class Page3_1_fragment1 extends Fragment {
                     time = "";
                 }
 
+                //정제한 알고리즘 값을 리스트에 넣어줌
                 if(result_number.get(i).contains("환승"))
                     data_list.add( new Page3_1_Main.item_data(result_number.get(i), result_name.get(i), "환승, " + time) );
                 else
                     data_list.add( new Page3_1_Main.item_data(result_number.get(i), result_name.get(i), time) );
             }
-
     }
 
 

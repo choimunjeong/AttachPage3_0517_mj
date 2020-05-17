@@ -40,11 +40,13 @@ public class Page3_1_fragment1_adapter extends RecyclerView.Adapter<Page3_1_frag
             holder.time.setTextColor(Color.parseColor("#c90404"));
         }
 
+        //리사이클러뷰의 마지막 역이면 시간표 부분 안보이게 함
         if(data.size()-1 == position){
             holder.circle.setVisibility(View.INVISIBLE);
             holder.time.setVisibility(View.INVISIBLE);
         }
 
+        //환승/경유/도착에 따라 원 색상 다르게 함
         if(data.get(position).number == "환승"){
             holder.first_circle.setBackgroundResource(R.drawable.circle2);
             holder.number.setTextColor(Color.parseColor("#4DD9A9"));

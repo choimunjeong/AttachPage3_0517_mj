@@ -26,7 +26,6 @@ public class Page3_1_fragment2 extends Fragment {
     //svg 지도로 값을 보내기 위한 핸들러
     Handler handler = new Handler();
 
-
     //출발역, 도착역을 담기 위한 변수
     String startStation, endStation;
 
@@ -129,12 +128,12 @@ public class Page3_1_fragment2 extends Fragment {
             String[] split_result2 = split_result[i].split(",");
 
             //그냥 지나감
-            if (split_result[i].contains("개수"))
+            if (split_result[i].contains("개수") || split_result[i].contains("시간"))
                 continue;
 
-            //첫번째 출발은 startSTation에 넣고
-            //두번째 출발부터 middleStation에 넣고
-            //출발 뒤에 있는 역들은 otherSTation에 넣는다.
+            //첫번째 출발은 startSTation에 넣고(출발)
+            //두번째 출발부터 middleStation에 넣고(경유)
+            //나머지 역들은 otherSTation에 넣는다.(그냥 지나가는 역들)
             else if (split_result[i].contains("출발")) {
 
                 if (!checkStart) {
@@ -150,10 +149,6 @@ public class Page3_1_fragment2 extends Fragment {
                 }
             }
 
-            //그냥 지나감
-            else if (split_result[i].contains("시간")) {
-               continue;
-            }
 
             //마지막 도착만 추가
             else if (split_result[i].contains("도착") && i == split_result.length - 1) {
@@ -167,9 +162,6 @@ public class Page3_1_fragment2 extends Fragment {
                 }
             }
         }
-
-
-
     }
 
 

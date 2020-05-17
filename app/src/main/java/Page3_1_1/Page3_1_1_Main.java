@@ -37,29 +37,29 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
 
     Page3_1_1_Main page3_1_1_main;
     RecyclerView recyclerView;
+    Button  add_city, revise_done;
 
+    //앞에서 전달한 값
+    String result, date, dayPass;
 
-    private ArrayList<Page3_1_1_dargData> list = new ArrayList<>();
-    Page3_1_1_adapter adapter = new Page3_1_1_adapter(list);
-    String result;
+    //도시추가시 도시가 들어갈 순서를 받기 위한 변수
     int number = 0;
 
-    boolean checkStart = false;     //'출발'을 한 번만 넣기 위함
+    //리사이클러뷰 관련
+    private ArrayList<Page3_1_1_dargData> list = new ArrayList<>();
+    private Page3_1_1_adapter adapter = new Page3_1_1_adapter(list);
+    boolean checkStart = false;
     List<item_data> add_list = new ArrayList<>();
     ArrayList<String> result_name = new ArrayList<String>();
     ArrayList<String> result_number = new ArrayList<String>();
 
-    Button  add_city, revise_done;
-
-    //알고리즘 페이지게 값을 전달하기 위한 부분
+    //txt값을 분류하기 위한 부분
+    private List<String> getdata_list = new ArrayList<String>();
     String[] code_name = null;
     String[] code = new String[237];
     String[] name = new String[237];
     String readStr = "";
-    private List<String> getdata_list = new ArrayList<String>();   //데이터를 넣을 리스트 변수
 
-    //앞에서 전달한 값
-    String date, dayPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +90,9 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         touchHelper.attachToRecyclerView(recyclerView);
         recyclerView.setAdapter(adapter);
 
-        ongetdata(result);
 
+        //앞에서 받아온 알고리즘 값을 정리
+        ongetdata(result);
 
 
         //환승역은 걸러서 list에 추가해준다.
@@ -101,7 +102,6 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
                 number ++;
             }
         }
-
 
 
         //도시 추가하기 버튼
@@ -115,8 +115,7 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         });
 
 
-
-        //추가됐을 때만 나타난다. 추가버튼 누르면 바로 알고리즘 페이지로 넘어가기 때문에 현재역들을 바틈시트에 넘겨준다.
+        //도시추가 됐을 때 알고리즘 돌리겠냐는 바텀시트 뜸
         adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
@@ -127,8 +126,7 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         });
 
 
-
-        //수정완료 버튼 누르면, list 순서대로 알고리즘을 돌린다.(엑티비티 -> 엑티비티 값전달이라 단순 intent 쓰면 됨)
+        //수정완료 버튼 누르면, list 순서대로 알고리즘을 돌린다.
         revise_done = (Button) findViewById(R.id.page3_1_1_reviseDone_btn);
         revise_done.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,7 +153,6 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
                 intent.putExtra("reRvise_done", "reRvise_done");
                 overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
                 intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP);
-
                 startActivity(intent);
             }
         });
@@ -172,7 +169,7 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
             String[] split_result2 = split_result[i].split(",");
 
             //그냥 지나감
-            if (split_result[i].contains("개수"))
+            if (split_result[i].contains("개수") || split_result[i].contains("시간"))
                 continue;
 
             else if (split_result[i].contains("출발")) {
@@ -182,10 +179,6 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
                     checkStart = true;
                 } else
                     result_number.add("경유");
-            }
-
-            else if (split_result[i].contains("시간")) {
-                continue;
             }
 
             else if (split_result[i].contains("도착") && i == split_result.length - 1) {
@@ -199,30 +192,11 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
             }
         }
 
+        //리스트에 추가
         for (int i = 0; i < result_name.size(); i++) {
             add_list.add(new item_data(result_number.get(i), result_name.get(i)));
         }
 
-    }
-
-
-
-    public static class item_data  {
-        String number;
-        String name;
-
-        String getNumber() {
-            return this.number;
-        }
-
-        String getName() {
-            return this.name;
-        }
-
-        public item_data(String number, String name) {
-            this.number  = number;
-            this.name  = name;
-        }
     }
 
 
@@ -249,7 +223,6 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
 
 
     //추가된 역을 반영해서 새로운 알고리즘을 돌리기 위한 인터페이스
-    //알고리즘을 돌리기 위한 작업이 필요
     @Override
     public void go_algorithm_page() {
         settingList();
@@ -268,19 +241,15 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         }
 
         //마지막 역은 추가된 역이므로 마지막전역(진짜 도착역)과 순서를 바꿔야 한다.
-        //send_list_change.get(0) = 마지막 역 = 추가된 역
         send_list_change.add(new send_data(send_list.get(send_list.size()-1).getCode(), list.get(list.size()-1).getName()));
-
-
-        //send_list_change.get(1) = 마지막 전역 = 도착역
         send_list_change.add(new send_data(send_list.get(send_list.size()-2).getCode(), list.get(list.size()-2).getName()));
-
 
         send_list.remove(send_list.size()-1);
         send_list.remove(send_list.size()-1);
 
         send_list.add(send_list_change.get(0));
         send_list.add(send_list_change.get(1));
+
 
         Intent intent = new Intent(this, Page3_1_Main.class);
         intent.putExtra("list", (Serializable) send_list);
@@ -292,12 +261,8 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
     }
 
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
-    }
 
+    //txt 값 정리
     private void settingList() {
         AssetManager am = getResources().getAssets();
         InputStream is = null;
@@ -313,19 +278,43 @@ public class Page3_1_1_Main extends AppCompatActivity implements Page3_1_1_addBo
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String[] arr = readStr.split("\n");  //한 줄씩 자른다.
-
-        //code,name으로 되어있는 line을 ','를 기준으로 다시 자른다.
+        String[] arr = readStr.split("\n");
         for (int i = 0; i < arr.length; i++) {
             code_name = arr[i].split(",");
-
             code[i] = code_name[0];
             name[i] = code_name[1];
-
             getdata_list.add(name[i]);
         }
     }
 
+
+
+    //뒤로가기 화면 전환 효과 없앰
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.backbutton, R.anim.backbutton);
+    }
+
+
+
+    public static class item_data  {
+        String number;
+        String name;
+
+        String getNumber() {
+            return this.number;
+        }
+
+        String getName() {
+            return this.name;
+        }
+
+        public item_data(String number, String name) {
+            this.number  = number;
+            this.name  = name;
+        }
+    }
 
 
 }

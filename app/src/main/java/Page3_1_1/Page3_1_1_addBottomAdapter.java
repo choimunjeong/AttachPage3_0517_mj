@@ -41,14 +41,15 @@ public class Page3_1_1_addBottomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         if(convertView == null){
             convertView = inflate.inflate(R.layout.page3_1_1_bottomsheet_item, null);
-
             viewHolder = new ViewHolder();
             viewHolder.label = (TextView) convertView.findViewById(R.id.label);
-
             convertView.setTag(viewHolder);
-        } else {
+        }
+
+        else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
 

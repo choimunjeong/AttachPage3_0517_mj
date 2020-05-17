@@ -5,7 +5,6 @@ public class Page3_1_1_1_dargData {
     private String number;
 
     public Page3_1_1_1_dargData(){
-
     }
 
     public Page3_1_1_1_dargData(String number, String name){
@@ -25,7 +24,4 @@ public class Page3_1_1_1_dargData {
         return number;
     }
 
-    public void setNumber (String number) {
-        this.number = number;
-    }
 }

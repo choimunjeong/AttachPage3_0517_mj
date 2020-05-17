@@ -18,7 +18,7 @@ import com.example.attachpage3_200428_mj.R;
 
 import java.util.ArrayList;
 
-//아래 블로그를 보며 이해를 합시다!
+//아래 블로그를 보며 이해
 //http://blog.naver.com/PostView.nhn?blogId=nife0719&logNo=221035148567&parentCategoryNo=&categoryNo=26&viewDate=&isShowPopularPosts=false&from=postView
 public class Heart_page extends AppCompatActivity {
     private static final String TAG = "Main";
@@ -39,12 +39,14 @@ public class Heart_page extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.heart_page);
 
+        //데베 값 넣어줄 리스트
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         ListView listView = (ListView) findViewById(R.id.db_list_view);
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(onClickListener);
         listView.setOnItemLongClickListener(longClickListener);
 
+        //데베 연결
         mDbOpenHelper = new DbOpenHelper(this);
         mDbOpenHelper.open();
         mDbOpenHelper.create();
@@ -89,6 +91,7 @@ public class Heart_page extends AppCompatActivity {
         }
     };
 
+
     public void showDatabase(String sort){
         Cursor iCursor = mDbOpenHelper.selectColumns();
         //iCursor.moveToFirst();
@@ -110,11 +113,11 @@ public class Heart_page extends AppCompatActivity {
                 arrayIndex.add(tempIndex);
             }
 
-
         arrayAdapter.clear();
         arrayAdapter.addAll(arrayData);
         arrayAdapter.notifyDataSetChanged();
     }
+
 
     public String setTextLength(String text, int length){
         if(text.length()<length){

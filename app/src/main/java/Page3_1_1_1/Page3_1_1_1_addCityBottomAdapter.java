@@ -43,11 +43,10 @@ public class Page3_1_1_1_addCityBottomAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
             convertView = inflate.inflate(R.layout.page3_1_1_1_addcity_item, null);
-
             viewHolder = new ViewHolder();
             viewHolder.label = (TextView) convertView.findViewById(R.id.page3_1_1_1_1_addcity_text);
-
             convertView.setTag(viewHolder);
+
         } else {
             viewHolder = (ViewHolder)convertView.getTag();
         }
