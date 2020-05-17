@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    //바텀시트 위에 두 줄 이미지
     <RelativeLayout
         android:id="@+id/page3_1_mapDown_btn"
         android:layout_width="match_parent"
@@ -43,12 +44,13 @@
         android:layout_marginTop="84dp"
         android:background="#EAEAEA"/>
 
+    //리스트뷰
     <ListView
         android:id="@+id/api_list_city"
-        android:layout_below="@+id/recyclerView_line"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="31dp"
+        android:layout_below="@+id/recyclerView_line"
         android:divider="#EAEAEA"
         android:dividerHeight="1dp"
         android:paddingBottom="20dp"/>

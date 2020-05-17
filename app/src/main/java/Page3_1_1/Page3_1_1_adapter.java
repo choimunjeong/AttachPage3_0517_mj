@@ -27,8 +27,7 @@ import java.util.Collections;
 public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.MyViewHolder> implements SwipeAndDragHelper.ActionCompletionContract{
     private ArrayList<Page3_1_1_dargData> mDataset;
     private ItemTouchHelper touchHelper;
-    boolean touchDrag = false;
-    Context context;
+    private Context context;
 
 
     public Page3_1_1_adapter(ArrayList<Page3_1_1_dargData> myData){
@@ -57,15 +56,15 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
 
         //순서부분
         if(position < 9) {
-            holder.number.setText("0"+ Integer.toString(position+1));
+            holder.number.setText("0"+ String.valueOf(position+1));
         }
         else
-            holder.number.setText(Integer.toString(position+1));
+            holder.number.setText(String.valueOf(position+1));
 
         //색깔부분
         if(position == 0) {
             holder.circle.setBackgroundResource(R.drawable.circle);
-        } else if(position > 0 && position < mDataset.size()-1){
+        } else if( position < mDataset.size()-1){
             holder.circle.setBackgroundResource(R.drawable.circle3);
         } else
             holder.circle.setBackgroundResource(R.drawable.circle4);
@@ -131,12 +130,12 @@ public class Page3_1_1_adapter extends RecyclerView.Adapter<Page3_1_1_adapter.My
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.page3_1_1_name);
-            number = (TextView) itemView.findViewById(R.id.page3_1_1_number);
-            delete = (Button) itemView.findViewById(R.id.page3_1_1_delete_btn);
-            add = (Button) itemView.findViewById(R.id.page3_1_1_listAdd);
-            dragline = (RelativeLayout) itemView.findViewById(R.id.page3_1_1_dragLine);
-            circle = (ImageView) itemView.findViewById(R.id.page3_1_1_circle);
+            name = itemView.findViewById(R.id.page3_1_1_name);
+            number =  itemView.findViewById(R.id.page3_1_1_number);
+            delete =  itemView.findViewById(R.id.page3_1_1_delete_btn);
+            add =  itemView.findViewById(R.id.page3_1_1_listAdd);
+            dragline =  itemView.findViewById(R.id.page3_1_1_dragLine);
+            circle =  itemView.findViewById(R.id.page3_1_1_circle);
         }
     }
 }

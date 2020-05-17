@@ -31,8 +31,8 @@
             android:id="@+id/move_btn_img"
             android:layout_width="30dp"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
             android:layout_marginRight="7dp"
+            android:layout_alignParentRight="true"
             android:background="@drawable/ic_icon_move"/>
         <TextView
             android:id="@+id/move_btn"

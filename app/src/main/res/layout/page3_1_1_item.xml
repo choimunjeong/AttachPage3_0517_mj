@@ -59,9 +59,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="2dp"
                 android:text="01"
-                android:fontFamily="@font/notosans"
                 android:textSize="14sp"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:fontFamily="@font/notosans"/>
 
         </RelativeLayout>
 
@@ -71,11 +71,11 @@
             android:id="@+id/page3_1_1_name"
             android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/page3_1_1_dragLine"
             android:layout_marginLeft="60dp"
+            android:layout_toRightOf="@+id/page3_1_1_dragLine"
             android:text="용산"
-            android:textColor="#000000"
             android:textSize="18sp"
+            android:textColor="#000000"
             android:fontFamily="@font/notosans_medium"/>
 
 
@@ -84,13 +84,13 @@
             android:id="@+id/page3_1_1_delete_btn"
             android:layout_width="80dp"
             android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
             android:text="삭제"
             android:textSize="18sp"
             android:textColor="#ffffff"
-            android:gravity="center"
-            android:background="@drawable/box_round4"
             android:fontFamily="@font/notosans_medium"
-            android:layout_alignParentRight="true"/>
+            android:background="@drawable/box_round4" />
 
 
 </RelativeLayout>

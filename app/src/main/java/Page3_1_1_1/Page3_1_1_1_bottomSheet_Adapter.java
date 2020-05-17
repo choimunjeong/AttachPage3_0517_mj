@@ -47,7 +47,7 @@ public class Page3_1_1_1_bottomSheet_Adapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView == null){
-            convertView = inflate.inflate(R.layout.page3_1_1_1_apisheet_header, null);
+            convertView = inflate.inflate(R.layout.page3_1_1_1_apisheet_item, null);
             viewHolder = new ViewHolder();
             viewHolder.depTime = convertView.findViewById(R.id.api_dep) ;
             viewHolder.arrTime = convertView.findViewById(R.id.api_arr) ;

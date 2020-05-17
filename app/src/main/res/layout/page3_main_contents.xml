@@ -28,13 +28,13 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
                 android:padding="10dp"
+                android:elevation="3dp"
+                android:background="@drawable/box_round"
                 app:container_enable_drag="true"
                 app:horizontal_interval="10dp"
                 app:tag_clickable="true"
                 app:tag_enable_cross="true"
-                app:vertical_interval="10dp"
-                android:elevation="3dp"
-                android:background="@drawable/box_round"/>
+                app:vertical_interval="10dp" />
 
         </LinearLayout>
 
