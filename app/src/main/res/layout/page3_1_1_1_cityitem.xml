@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginRight="8dp">
+
+        //앞에 아이콘
+        <TextView
+            android:layout_margin="1dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/circle"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="01"
+            android:textColor="#ffffff"
+            android:textSize="15dp"
+            android:fontFamily="@font/notosans"/>
+
+    </RelativeLayout>
+
+
+    //텍스트부분
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="32dp"
+        android:layout_weight="10"
+        android:gravity="center_vertical"
+        android:layout_marginRight="8dp">
+
+        //텍스트
+        <TextView
+            android:id="@+id/page3_1_1_1_cityText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:text="기차 시간 검색"
+            android:textSize="16dp"
+            android:ellipsize="end"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

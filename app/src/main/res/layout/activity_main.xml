@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/subject_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(자연)" />
+
+    <Button
+        android:id="@+id/subject_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(역사)" />
+
+    <Button
+        android:id="@+id/subject_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(휴양)" />
+
+    <Button
+        android:id="@+id/subject_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(체험)" />
+
+    <Button
+        android:id="@+id/subject_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(산업)" />
+
+    <Button
+        android:id="@+id/subject_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(건축/조형)" />
+
+    <Button
+        android:id="@+id/subject_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(문화)" />
+
+    <Button
+        android:id="@+id/subject_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="코스더보기>(레포츠)" />
+
+    <Button
+        android:id="@+id/go_page_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="스케줄짜기 바로가기" />
+
+
+</LinearLayout>
