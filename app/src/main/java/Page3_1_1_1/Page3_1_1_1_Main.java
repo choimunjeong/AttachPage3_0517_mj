@@ -25,12 +25,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import DB.DbOpenHelper;
 import DB.Heart_page;
+import DB.Train_DbOpenHelper;
+import DB.Train_page;
 import Page3_1.Page3_1_Main;
 import Page3_1_1.Page3_1_1_addConformDialog;
 import Page3_1_1.Page3_1_1_dargData;
 
-public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_addCityBottomSheet.onSetList {
+public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_addCityBottomSheet.onSetList{
     TextView addSpot;
     String split_1 [];
     String date= null, dayPass = null;
@@ -46,12 +49,22 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
     LayoutInflater inflater;
     Page3_1_1_1_trainAdapter adapter;
 
+    //데이터베이스 관련
+    Train_DbOpenHelper dbOpenHelper;
+    int number = 1;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page3_1_1_1_main);
+
+        //데이터베이스 연결
+        dbOpenHelper = new Train_DbOpenHelper(this);
+        dbOpenHelper.open();
+        dbOpenHelper.create();
+
 
         //값을 받아옴
         Intent intent = getIntent();
@@ -86,26 +99,26 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
 
 
         //리사이클러뷰 리스트에 추가
-        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "1일차", day1_date));
+        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "1일차", day1_date, "", "", ""));
 
         //환승인지 아닌지 걸러내는 작업
         for(int i =0; i < next_data.size()-1; i++){
             if(!getitem.get(i).getNumber().contains("환승") ){
                 if(!getitem.get(i+1).getNumber().contains("환승")) {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName() + "," + getitem.get(i + 1).getName(), getitem.get(i).getName() + " - " + getitem.get(i + 1).getName(), day1_date ));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName() + "," + getitem.get(i + 1).getName(), getitem.get(i).getName() + " - " + getitem.get(i + 1).getName(), day1_date  ,""  ,"", ""));
                 }
                 else if(!getitem.get(i+2).getNumber().contains("환승")) {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName(), getitem.get(i).getName()+" - "+getitem.get(i+2).getName() ,  day1_date ));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD, getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName(), getitem.get(i).getName()+" - "+getitem.get(i+2).getName() ,  day1_date  ,"" ,"" , ""));
                 } else if(!getitem.get(i+3).getNumber().contains("환승")) {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+" - "+getitem.get(i+3).getName() ,  day1_date ));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+" - "+getitem.get(i+3).getName() ,  day1_date ,"" , "", ""));
                 } else {
-                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+" - "+getitem.get(i+4).getName() ,  day1_date));
+                    list.add(new RecycleItem(Page3_1_1_1_trainAdapter.CHILD,getitem.get(i).getName()+","+getitem.get(i+1).getName()+","+getitem.get(i+2).getName()+","+getitem.get(i+3).getName()+","+getitem.get(i+3).getName() ,getitem.get(i).getName()+" - "+getitem.get(i+4).getName() ,  day1_date ,"", "" ,""));
                 }
             }
         }
 
-        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","2일차",  day2_date));
-        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","3일차",  day3_date));
+        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","2일차",  day2_date, "" , "" ,""));
+        list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "","3일차",  day3_date, "" , "" ,""));
 
 
         //5일차면
@@ -116,8 +129,8 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             calendar.add(Calendar.DATE, 1);
             day5_date = dateFormat.format(calendar.getTime());
 
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date ,"" , "" , ""));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date ,"" , "" , ""));
         }
 
 
@@ -133,10 +146,10 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             calendar.add(Calendar.DATE, 1);
             day7_date = dateFormat.format(calendar.getTime());
 
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date ));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "6일차", day6_date ));
-            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "7일차", day7_date ));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "4일차", day4_date , "" , "" , ""));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "5일차", day5_date , "" , "" , ""));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "6일차", day6_date , "" , "" , ""));
+            list.add(new RecycleItem(Page3_1_1_1_trainAdapter.HEADER, "", "7일차", day7_date , "" , "" , ""));
         }
 
 
@@ -183,12 +196,31 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
             }
         });
 
+
+        //저장하기 버튼 누르면
+        Button save_btn = (Button) findViewById(R.id.page3_1_1_1_save_btn);
+        save_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbOpenHelper.open();
+
+                for(int i=0; i < list.size(); i++){
+                    dbOpenHelper.insertColumn(String.valueOf(number), list.get(i).date, list.get(i).text, list.get(i).text_shadow,
+                            list.get(i).train_time, list.get(i).contentId);
+                }
+
+                number++;
+                Intent intent = new Intent(Page3_1_1_1_Main.this, Train_page.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
     //관심 관광지 추가 인터페이스
     @Override
-    public void onsetlist(String text, String cityname) {
+    public void onsetlist(String text, String cityname, String contentId) {
         boolean isAdd = false;
 
         //해당되는 도시 아래에 넣기 위함
@@ -200,7 +232,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
                 String station = text_split[1].trim();
 
                 if(station.contains(cityname)){
-                    list.add(i+1, new RecycleItem(Page3_1_1_1_trainAdapter.CITY, "",text,  "0"));
+                    list.add(i+1, new RecycleItem(Page3_1_1_1_trainAdapter.CITY, "",  text,  list.get(i).date, "", "", contentId));
                     adapter.notifyDataSetChanged();
                     isAdd = true;
                     break;
@@ -220,16 +252,34 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
         String text;
         String text_shadow;
         String date;
+        String train_time;
+        String station_code;
+        String contentId;
 
-        public RecycleItem(int type, String text_shadow, String text, String  date){
+        public RecycleItem(int type, String text_shadow, String text, String  date, String train_time, String station_code, String contentId){
             this.type = type;
             this.text_shadow = text_shadow;
             this.text = text;
             this.date = date;
+            this.train_time = train_time;
+            this.station_code = station_code;
+            this.contentId = contentId;
         }
 
         public void setDate(String date) {
             this.date = date;
+        }
+
+        public void setTrain_time(String train_time) {
+            this.train_time = train_time;
+        }
+
+        public void setStation_code(String station_code) {
+            this.station_code = station_code;
+        }
+
+        public void setContentId(String contentId) {
+            this.contentId = contentId;
         }
     }
 
@@ -246,8 +296,8 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
     @Override
     protected void onPause() {
         super.onPause();
-        list.clear();
-        getitem.clear();
+//        list.clear();
+//        getitem.clear();
     }
 
 

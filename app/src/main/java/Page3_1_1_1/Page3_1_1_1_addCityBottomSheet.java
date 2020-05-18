@@ -30,6 +30,7 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
     static ArrayList<String> arrayCityName = new ArrayList<String>();
+    static ArrayList<String> arrayContentId = new ArrayList<String>();
     private DbOpenHelper mDbOpenHelper;
 
 
@@ -103,7 +104,7 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             if(listener != null){
-                    listener.onsetlist(arrayData.get(position), arrayCityName.get(position));
+                    listener.onsetlist(arrayData.get(position), arrayCityName.get(position) , arrayContentId.get(position));
                 }
                  dismiss();
             }
@@ -122,11 +123,13 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
             String tempIndex = iCursor.getString(iCursor.getColumnIndex("_id"));
             String tempName = iCursor.getString(iCursor.getColumnIndex("name"));
             String tempCityname = iCursor.getString(iCursor.getColumnIndex("cityname"));
+            String tempContentId =  iCursor.getString(iCursor.getColumnIndex("userid"));
 
             String Result = "(" + tempCityname + ")" + tempName;
             arrayData.add(Result);
             arrayIndex.add(tempIndex);
             arrayCityName.add(tempCityname);
+            arrayContentId.add(tempContentId);
         }
 
         adapter.notifyDataSetChanged();
@@ -135,7 +138,7 @@ public class Page3_1_1_1_addCityBottomSheet extends BottomSheetDialogFragment {
 
     //인터페이스 구현-바텀시트 아이템 선택하면 리사이클러뷰에 넣어주기 위함
     public interface onSetList {
-        void onsetlist(String text, String cityname);
+        void onsetlist(String text, String cityname, String contentId);
     }
 
 }

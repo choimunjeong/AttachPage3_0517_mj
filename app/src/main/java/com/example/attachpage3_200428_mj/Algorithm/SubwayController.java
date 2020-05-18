@@ -1,5 +1,7 @@
 package com.example.attachpage3_200428_mj.Algorithm;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -122,13 +124,14 @@ public class SubwayController {
             if(i==0){
                 sb.append("출발,");
                 sb.append(item.get(i).toString());
-                continue;
+                //ㅡcontinue;
             }
 
             if(i < item.size() -2) {
                 //열차 노선번호 비교
                 if(item.get(i).getId().contains(item.get(i+2).getId()) || item.get(i+2).getId().contains(item.get(i).getId())){
 
+                    Log.i("환승이 왜 아님?", item.get(i) +"-" + item.get(i+2));
                     //환승아니면
                     if(transfer){
                         transfer = false;

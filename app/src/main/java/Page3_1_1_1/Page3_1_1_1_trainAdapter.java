@@ -49,7 +49,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     private ArrayList<Page3_1_1_1_Main.RecycleItem> items = null;
 
     //헤더바 위치가 0이면 true로 바뀌고 1일차로 움직일 수 없게 만듦
-    boolean firstdone = false;
+    private boolean firstdone = false;
 
     //헤더인지 아이템인지 확인하는데 필요함/ HEADER:n일차 바 / CHILD:기차시간표 / CITY:관광지 부분
     public static final int HEADER = 0;
@@ -57,21 +57,21 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
     public static final int CITY =2;
 
     //바텀시트 관련(맨 아래 함수)
-    FragmentManager fragmentManager;
-    String receiveMsg;
-    String [] data_split;
-    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> completeList;              //정제된 리스트값
-    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> header_data;               //정제전 헤더값
-    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child1_data;               //정제전 차일드 값(경유1
-    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child2_data;               //정제전 차일드 값(경유2
-    ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child3_data;               //정제전 차일드 값(경유3
-    String[] arr_line;
-    String[] arr_all;
-    String[] _name = new String[238];                                              //txt에서 받은 역이름
-    String[] _code = new String[238];                                              //txt에서 받은 역코드
-    String startCode, endCode, trainCode;
-    String[] trainCodelist = {"01", "02", "03", "04", "08", "09", "15"};
-    String date;
+    private  FragmentManager fragmentManager;
+    private  String receiveMsg;
+    private  String [] data_split;
+    private  ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> completeList;              //정제된 리스트값
+    private  ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> header_data;               //정제전 헤더값
+    private  ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child1_data;               //정제전 차일드 값(경유1
+    private  ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child2_data;               //정제전 차일드 값(경유2
+    private  ArrayList<Page3_1_1_1_bottomSheet_Adapter.Api_Item> child3_data;               //정제전 차일드 값(경유3
+    private  String[] arr_line;
+    private  String[] arr_all;
+    private  String[] _name = new String[238];                                              //txt에서 받은 역이름
+    private  String[] _code = new String[238];                                              //txt에서 받은 역코드
+    private  String startCode, endCode, trainCode;
+    private  String[] trainCodelist = {"01", "02", "03", "04", "08", "09", "15"};
+    private  String date;
 
 
     //부모 액티비티와 연결
@@ -149,7 +149,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                     }
                 }
             }
-            ;
+
             itemViewHolder.mCourseText.setText(item.text);
             itemViewHolder.mShadowText.setText(item.text_shadow);
         }
@@ -200,10 +200,10 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
 
         public HeaderViewHolder(View itemView) {
             super(itemView);
-            header_title = (TextView) itemView.findViewById(R.id.header_title);
-            move_btn = (TextView) itemView.findViewById(R.id.move_btn);
-            list_header = (LinearLayout) itemView.findViewById(R.id.list_header);
-            move_img = (ImageView)itemView.findViewById(R.id.move_btn_img);
+            header_title =  itemView.findViewById(R.id.header_title);
+            move_btn =  itemView.findViewById(R.id.move_btn);
+            list_header =  itemView.findViewById(R.id.list_header);
+            move_img = itemView.findViewById(R.id.move_btn_img);
         }
     }
 
@@ -216,11 +216,11 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
 
         public ItemViewHolder(View itemView) {
             super(itemView);
-            mCourseText = (TextView) itemView.findViewById(R.id.course_Page3_1_1);
-            mShadowText = (TextView) itemView.findViewById(R.id.searchTime_Page3_1_1_shadow);
-            mTimeText = (TextView) itemView.findViewById(R.id.searchTime_Page3_1_1);
-            search_img = (ImageView) itemView.findViewById(R.id.search_img);
-            item_touch = (LinearLayout) itemView.findViewById(R.id.item_touch);
+            mCourseText =  itemView.findViewById(R.id.course_Page3_1_1);
+            mShadowText =  itemView.findViewById(R.id.searchTime_Page3_1_1_shadow);
+            mTimeText =  itemView.findViewById(R.id.searchTime_Page3_1_1);
+            search_img =  itemView.findViewById(R.id.search_img);
+            item_touch =  itemView.findViewById(R.id.item_touch);
 
 
             //기차 시간표 부분
@@ -232,7 +232,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                     final int pos = getAdapterPosition() ;
 
                     //바텀시트에 전달할 값
-                    ArrayList<String> data = new ArrayList<>();
+                    final ArrayList<String> data = new ArrayList<>();
                     data.clear();
                     data.add(items.get(pos).text_shadow);
                     String date = items.get(pos).date;
@@ -306,6 +306,7 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
                             mTimeText.setTextColor(Color.parseColor("#000000"));
                             mTimeText.setTextSize(16f);
                             search_img.setVisibility(View.INVISIBLE);
+                            items.get(pos).setTrain_time(startTIme[0]+" - "+endTime[endTime.length-1]);
                             dialog.dismiss();
                         }
                     });
@@ -327,7 +328,6 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
             city_text = (TextView) itemView.findViewById(R.id.page3_1_1_1_cityText);
         }
     }
-
 
 
 
@@ -664,9 +664,5 @@ public class Page3_1_1_1_trainAdapter extends RecyclerView.Adapter<RecyclerView.
             }
         }
     }
-
-
-
-
 
 }

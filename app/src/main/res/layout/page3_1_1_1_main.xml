@@ -123,13 +123,13 @@
 
                 //저장하기 버튼
                 <Button
-                    android:id="@+id/page3.1_nextstep_btn"
+                    android:id="@+id/page3_1_1_1_save_btn"
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
                     android:layout_marginLeft="19dp"
                     android:text="저장하기"
-                    android:textSize="16dp"
+                    android:textSize="16sp"
                     android:textColor="#ffffff"
                     android:fontFamily="@font/notosans_semibold"
                     android:background="@drawable/box_round3"

@@ -21,19 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Page3_1_fragment2 extends Fragment {
-    Page3_1_Main page31Main;
+    private Page3_1_Main page31Main;
 
     //svg 지도로 값을 보내기 위한 핸들러
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
 
     //출발역, 도착역을 담기 위한 변수
-    String startStation, endStation;
+    private String startStation, endStation;
 
     //경유역들을 담기 위한 변수
-    List<String> middleStation = new ArrayList<>();
+    private List<String> middleStation = new ArrayList<>();
 
     //중간역(지나가는 역들)을 담기 위한 변수
-    List<String> otherStation = new ArrayList<>();
+    private List<String> otherStation = new ArrayList<>();
 
 
     public Page3_1_fragment2(){}
@@ -66,7 +66,7 @@ public class Page3_1_fragment2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.page3_1_viewpager_map, container, false);
 
-        final WebView web = (WebView)v.findViewById(R.id.page3_1_map);
+        final WebView web = v.findViewById(R.id.page3_1_map);
 
         //액티비티에서 값을 전달 받음
         Bundle extra = getArguments();
@@ -99,14 +99,18 @@ public class Page3_1_fragment2 extends Fragment {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                for(int i=0; i < middleStation.size(); i++){
-                    web.loadUrl("javascript:setMessage('"+ middleStation.get(i)+"', '#4DD9A9', '#1B503D')");
-                }
 
+                //지나가는 역을 지도에 표시
                 for(int i=0; i < otherStation.size(); i++){
                     web.loadUrl("javascript:setMessage('"+ otherStation.get(i)+"', '#b5b3b3', '#999999')");
                 }
 
+                //경유역을 지도에 표시
+                for(int i=0; i < middleStation.size(); i++){
+                    web.loadUrl("javascript:setMessage('"+ middleStation.get(i)+"', '#4DD9A9', '#1B503D')");
+                }
+
+                //출발, 도착역을 지도에 표시
                 web.loadUrl("javascript:setMessage('"+startStation+"', '#FE9D0D', '#C18428')");
                 web.loadUrl("javascript:setMessage('"+endStation+"', '#FE800D', '#874407')");
 

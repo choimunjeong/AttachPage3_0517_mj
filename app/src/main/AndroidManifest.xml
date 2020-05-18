@@ -30,6 +30,7 @@
         <activity android:name="Page3_1_1.Page3_1_1_Main"/>
         <activity android:name="Page3_1_1_1.Page3_1_1_1_Main"/>
         <activity android:name="DB.Heart_page"/>
+        <activity android:name="DB.Train_page"/>
     </application>
 
 </manifest>
