@@ -29,6 +29,7 @@ import DB.DbOpenHelper;
 import DB.Heart_page;
 import DB.Train_DbOpenHelper;
 import DB.Train_page;
+import Page1_schedule.Page1_Main;
 import Page3_1.Page3_1_Main;
 import Page3_1_1.Page3_1_1_addConformDialog;
 import Page3_1_1.Page3_1_1_dargData;
@@ -210,7 +211,7 @@ public  class Page3_1_1_1_Main extends AppCompatActivity implements Page3_1_1_1_
                 }
 
                 number++;
-                Intent intent = new Intent(Page3_1_1_1_Main.this, Train_page.class);
+                Intent intent = new Intent(Page3_1_1_1_Main.this, Page1_Main.class);
                 startActivity(intent);
             }
         });

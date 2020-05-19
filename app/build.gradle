@@ -41,4 +41,8 @@ dependencies {
     /*URL에서 이미지를 받기 위한 Glide*/
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    /*인디케이터*/
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3'
+    implementation project(path: ':pageindicatorview')
 }

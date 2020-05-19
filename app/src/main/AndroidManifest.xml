@@ -8,6 +8,10 @@
     <!--네트워크가 연결된 것을 확인 할 수 있게 함(모니터링)-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <!--위치권한-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +35,8 @@
         <activity android:name="Page3_1_1_1.Page3_1_1_1_Main"/>
         <activity android:name="DB.Heart_page"/>
         <activity android:name="DB.Train_page"/>
+        <activity android:name="Page1_schedule.Page1_Main"/>
+        <activity android:name="Page1_schedule.Page1_full_Schedule"/>
     </application>
 
 </manifest>

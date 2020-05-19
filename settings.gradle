@@ -1,2 +1,2 @@
-include ':app', ':androidtagview'
+include ':app', ':androidtagview', ':pageindicatorview'
 rootProject.name='AttachPage3_200428_mj'
